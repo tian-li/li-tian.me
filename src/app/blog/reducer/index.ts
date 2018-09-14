@@ -30,3 +30,16 @@ export const {
   selectAll: getAllBlogs,
   selectTotal: getTotalBlogs,
 } = fromBlog.adapter.getSelectors(getBlogEntitiesState);
+
+export const getSelectedBlogId = createSelector(
+  getBlogEntitiesState,
+  fromBlogs => fromBlogs.selectedBlogId
+);
+
+export const getSelectedBlog = createSelector(
+  getBlogEntities,
+  getSelectedBlogId,
+  (entities, selectedId) => {
+    return selectedId && entities[selectedId];
+  }
+);

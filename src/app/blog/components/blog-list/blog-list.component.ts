@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Blog } from '../model/blog';
-import * as fromBlog from '../reducer';
-import * as BlogActions from '../actions/blog.actions';
+import { Blog } from '../../model/blog';
+import * as fromBlog from '../../reducer';
+import * as BlogActions from '../../actions/blog.actions';
 
 @Component({
   selector: 'app-blog-list',
