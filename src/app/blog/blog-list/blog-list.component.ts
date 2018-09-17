@@ -13,6 +13,7 @@ import * as BlogActions from '../actions/blog.actions';
 })
 export class BlogListComponent implements OnInit {
   blogs$: Observable<Blog[]>;
+  blogs: Blog[];
 
   constructor(private store: Store<fromBlog.State>) { 
     this.blogs$ = this.store.pipe(select(fromBlog.getAllBlogs));
@@ -20,6 +21,9 @@ export class BlogListComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new BlogActions.LoadAllBlogs());
+    this.store.pipe(select(fromBlog.getAllBlogs)).subscribe((blogs: Blog[]) => {
+      this.blogs = blogs;
+    })
   }
 
 }

@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BlogModule } from './blog/blog.module';
 import { reducers } from './blog/reducer';
+import { SideNavComponent } from './side-nav/side-nav.component';
 
 // const reducerss = {
 //   blogReducer
@@ -29,7 +30,7 @@ import { reducers } from './blog/reducer';
     BlogModule,
     AppRoutingModule,
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, SideNavComponent],
   providers: [],
   bootstrap: [AppComponent],
 })
