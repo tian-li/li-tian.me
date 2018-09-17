@@ -1,0 +1,7 @@
+<main *ngIf="blog$ | async as blog">
+  <h2>{{blog?.title}}</h2>
+  <h3>{{blog.authorId}}</h3>
+  <article>
+    {{blog.content}}
+  </article>
+</main>

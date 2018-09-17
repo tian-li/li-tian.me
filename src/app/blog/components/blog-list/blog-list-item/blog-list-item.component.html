@@ -1,0 +1,6 @@
+<mat-card fxLayout="column">
+  <mat-card-title><a [routerLink]="['/blog', blog.id]">{{blog?.title}}</a></mat-card-title>
+  <mat-card-subtitle>{{blog?.authorId}}, {{blog?.createdDate}}</mat-card-subtitle>
+  <mat-card-content>{{blog?.content}}</mat-card-content>
+</mat-card>
+<!-- <button mat-raised-button color="primary">Click</button> -->

@@ -4,9 +4,8 @@ import { Blog } from '../model/blog';
 import { BlogActionTypes, BlogActionsUnion } from '../actions/blog.actions';
 
 export interface State extends EntityState<Blog> {
-  // additional entities state properties
   errorMessage: string;
-  // selectedBlogId: number | null;
+  selectedBlogId: string;
 }
 
 export const adapter: EntityAdapter<Blog> = createEntityAdapter<Blog>({
@@ -15,9 +14,8 @@ export const adapter: EntityAdapter<Blog> = createEntityAdapter<Blog>({
 });
 
 export const initialState: State = adapter.getInitialState({
-  // additional entity state properties
   errorMessage: undefined,
-  // selectedBlogId: null,
+  selectedBlogId: undefined,
 });
 
 export function reducer(state = initialState, action: BlogActionsUnion): State {
@@ -42,9 +40,11 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
       };
     }
     case BlogActionTypes.LOAD_ONE_BLOG_SUCCESS: {
-      console.log('load one success action', action);
-
-      return adapter.addOne(action.payload, { ...state, errorMessage: undefined });
+      return adapter.addOne(action.payload, {
+        ...state,
+        selectedBlogId: action.payload.id,
+        errorMessage: undefined,
+      });
     }
     case BlogActionTypes.LOAD_ONE_BLOG_FAIL: {
       return {
@@ -58,19 +58,4 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
   }
 }
 
-// export const getSelectedBlogId = (state: State) => state.selectedBlogId;
-
-// get the selectors
-// const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors();
-
-// // select the array of blog ids
-// export const selectBlogIds = selectIds;
-
-// // select the dictionary of blog entities
-// export const selectBlogEntities = selectEntities;
-
-// // select the array of blogs
-// export const selectAllBlogs = selectAll;
-
-// // select the total blog count
-// export const selectBlogTotal = selectTotal;
+export const getSelectedBlogId = (state: State) => state.selectedBlogId;

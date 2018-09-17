@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 import { BlogComponent } from './blog.component';
-import { BlogListComponent } from './blog-list/blog-list.component';
-import { BlogDetailComponent } from './blog-detail/blog-detail.component';
+import { BlogListComponent } from './components/blog-list/blog-list.component';
+import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
 
 const blogRoutes = [
   {
-    path: '',
+    path: 'blog',
     component: BlogComponent,
     children: [{ path: '', component: BlogListComponent },]
   },

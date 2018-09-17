@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Blog } from '../../model/blog';
+import { Blog } from '../../../model/blog';
 
 @Component({
   selector: 'app-blog-list-item',
