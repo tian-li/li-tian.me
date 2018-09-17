@@ -1,6 +1,11 @@
-<mat-card fxLayout="column">
-  <mat-card-title><a [routerLink]="['/blog', blog.id]">{{blog?.title}}</a></mat-card-title>
-  <mat-card-subtitle>{{blog?.authorId}}, {{blog?.createdDate}}</mat-card-subtitle>
-  <mat-card-content>{{blog?.content}}</mat-card-content>
-</mat-card>
-<!-- <button mat-raised-button color="primary">Click</button> -->
+<div fxLayout="column">
+  <h2 class="blog-list-item-title" fxFlex>
+    {{blog?.title}}
+  </h2>
+  <h6 class="blog-list-item-meta">
+    {{blog?.createdDate}}
+  </h6>
+  <p class="blog-list-item-summary">
+    {{blog?.summary}}
+  </p>
+</div>
