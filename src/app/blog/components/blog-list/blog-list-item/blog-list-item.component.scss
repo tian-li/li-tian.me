@@ -1,11 +1,21 @@
 .blog-list-item-title {
-  font-size: 30px;
+  font-size: 26px;
+  margin-bottom: 10px;
+  a {
+    &:hover {
+      color: #076DA6;
+    }
+  }
 }
 
 .blog-list-item-meta {
-  font-size: 15px;
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.6;
+  margin-bottom: 10px;
 }
 
 .blog-list-item-summary {
-  font-size: 24px;
+  font-size: 15px;
 }
+

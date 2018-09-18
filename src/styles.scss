@@ -1,8 +1,21 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,900');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  // font-family: Lato;
+}
+
+body {
+  color: black;
+  font-family: 'Lato', Helvetica, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color:black;
+  &:visited {
+    color:black;
+  }
 }
