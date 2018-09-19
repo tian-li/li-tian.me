@@ -10,6 +10,7 @@ import { BlogComponent } from './blog.component';
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogListComponent } from './components/blog-list/blog-list.component';
 import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
+import { MarkdownPipe } from './components/blog-detail/markdown.pipe';
 
 import { BlogService } from './service/blog.service';
 import { reducers } from './reducer';
@@ -29,6 +30,7 @@ import { BlogListItemComponent } from './components/blog-list/blog-list-item/blo
     BlogListComponent,
     BlogDetailComponent,
     BlogListItemComponent,
+    MarkdownPipe,
   ],
   providers: [BlogService],
 })

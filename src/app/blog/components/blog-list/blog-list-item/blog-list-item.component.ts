@@ -17,4 +17,8 @@ export class BlogListItemComponent implements OnInit {
     console.log('blog list item', this.blog);
   }
 
+  tagList(tags: string[]): string {
+    return '';
+  }
+
 }

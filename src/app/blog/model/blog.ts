@@ -5,6 +5,7 @@ export class Blog {
   authorId: string;
   createdDate: string;
   summary: string;
+  tags: string[];
 
   constructor(blog: any) {
     this.id = blog.id;
@@ -13,5 +14,6 @@ export class Blog {
     this.summary = blog.summary;
     this.authorId = blog.authorId;
     this.createdDate = blog.createdDate;
+    this.tags = blog.tags;
   }
 }

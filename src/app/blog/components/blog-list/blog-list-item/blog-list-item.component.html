@@ -3,7 +3,7 @@
     <a class="" [routerLink]="[blog.id]">{{blog?.title}}</a>
   </h2>
   <p class="blog-list-item-meta">
-    {{blog?.createdDate}}
+    <span>{{blog?.createdDate}}</span><span *ngFor="let tag of blog.tags" class="blog-tag">#{{tag}}</span>
   </p>
   <p class="blog-list-item-summary">
     <a [routerLink]="[blog.id]">{{blog?.summary}}</a>
