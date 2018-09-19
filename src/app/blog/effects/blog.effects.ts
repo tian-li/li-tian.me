@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { defer, Observable, of } from 'rxjs';
@@ -18,6 +18,9 @@ import {
   LoadOneBlog,
   LoadOneBlogSuccess,
   LoadOneBlogFail,
+  LoadBlogsFromPage,
+  LoadBlogsFromPageSuccess,
+  LoadBlogsFromPageFail,
 } from '../actions/blog.actions';
 import { BlogService } from '../service/blog.service';
 
@@ -38,6 +41,25 @@ export class BlogEffects {
           catchError((err: any) => {
             console.log('err', err);
             return of(new LoadAllBlogsFail(err));
+          }),
+        );
+    }),
+  );
+
+  @Effect()
+  loadBlogsFromPage$: Observable<Action> = this.actions$.pipe(
+    ofType<LoadBlogsFromPage>(BlogActionTypes.LOAD_BLOGS_FROM_PAGE),
+    map((action: LoadBlogsFromPage) => action.payload),
+    switchMap((pageNumber: string) => {
+      const params = new HttpParams().set('_page', pageNumber).set('_limit', '5');
+      return this.http.get(`${this.serverUrl}`, { params })
+        .pipe(
+          map((blogs: any) => {
+            return new LoadBlogsFromPageSuccess(_map(blogs, (blog: any) => new Blog(blog)));
+          }),
+          catchError((err: any) => {
+            console.log('err', err);
+            return of(new LoadBlogsFromPageFail(err));
           }),
         );
     }),

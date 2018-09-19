@@ -14,7 +14,7 @@ export class BlogListItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('blog list item', this.blog);
+    // console.log('blog list item', this.blog);
   }
 
   tagList(tags: string[]): string {

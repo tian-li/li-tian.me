@@ -39,6 +39,16 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
         errorMessage: action.payload,
       };
     }
+    case BlogActionTypes.LOAD_BLOGS_FROM_PAGE_SUCCESS: {
+      console.log('load from page success action', action);
+      return adapter.addMany(action.payload, { ...state, errorMessage: undefined });
+    }
+    case BlogActionTypes.LOAD_BLOGS_FROM_PAGE_FAIL: {
+      return {
+        ...state,
+        errorMessage: action.payload,
+      };
+    }
     case BlogActionTypes.LOAD_ONE_BLOG_SUCCESS: {
       return adapter.addOne(action.payload, {
         ...state,

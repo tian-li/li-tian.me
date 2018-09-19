@@ -11,6 +11,10 @@ export enum BlogActionTypes {
   LOAD_MULTIPLE_BLOGS_SUCCESS = '[Blog] Load Multiple Blogs Success',
   LOAD_MULTIPLE_BLOGS_FAIL = '[Blog] Load Multiple Blogs Fail',
 
+  LOAD_BLOGS_FROM_PAGE = '[Blog] Load Blogs From Page',
+  LOAD_BLOGS_FROM_PAGE_SUCCESS = '[Blog] Load Blogs From Page Success',
+  LOAD_BLOGS_FROM_PAGE_FAIL = '[Blog] Load Blogs From Page Fail',
+
   LOAD_ONE_BLOG = '[Blog] Load One Blog',
   LOAD_ONE_BLOG_SUCCESS = '[Blog] Load One Blog Success',
   LOAD_ONE_BLOG_FAIL = '[Blog] Load One Blog Fail',
@@ -48,6 +52,24 @@ export class LoadMultipleBlogsFail implements Action {
   constructor(public payload: string) {}
 }
 
+export class LoadBlogsFromPage implements Action {
+  readonly type = BlogActionTypes.LOAD_BLOGS_FROM_PAGE;
+
+  constructor(public payload: string) {}
+}
+
+export class LoadBlogsFromPageSuccess implements Action {
+  readonly type = BlogActionTypes.LOAD_BLOGS_FROM_PAGE_SUCCESS;
+
+  constructor(public payload: Blog[]) {}
+}
+
+export class LoadBlogsFromPageFail implements Action {
+  readonly type = BlogActionTypes.LOAD_BLOGS_FROM_PAGE_FAIL;
+
+  constructor(public payload: string) {}
+}
+
 export class LoadOneBlog implements Action {
   readonly type = BlogActionTypes.LOAD_ONE_BLOG;
 
@@ -73,6 +95,9 @@ export type BlogActionsUnion =
   | LoadMultipleBlogsSuccess
   | LoadMultipleBlogsFail
   | LoadMultipleBlogs
+  | LoadBlogsFromPage
+  | LoadBlogsFromPageSuccess
+  | LoadBlogsFromPageFail
   | LoadOneBlog
   | LoadOneBlogSuccess
   | LoadOneBlogFail;
