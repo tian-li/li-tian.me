@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Blog } from '../../model/blog';
+import { Blog } from '../../../model/blog';
 
 @Component({
   selector: 'app-blog-list-item',
@@ -14,6 +14,11 @@ export class BlogListItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // console.log('blog list item', this.blog);
+  }
+
+  tagList(tags: string[]): string {
+    return '';
   }
 
 }
