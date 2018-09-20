@@ -23,7 +23,6 @@ export class BlogService {
   }
 
   loadPage(page: string): Observable<any> {
-    // posts?_page=7&_limit=20
     const params = new HttpParams().set('_page', page).set('_limit', '20');
     return this.http.get(`${this.serverUrl}/blogs`, { params });
   }

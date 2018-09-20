@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -20,6 +21,7 @@ import { BlogListItemComponent } from './components/blog-list/blog-list-item/blo
 @NgModule({
   imports: [
     CommonModule,
+    FlexLayoutModule,
     BlogMaterialModule,
     BlogRoutingModule,
     StoreModule.forFeature('blogs', reducers),

@@ -4,6 +4,7 @@ import { Blog } from '../model/blog';
 import { BlogActionTypes, BlogActionsUnion } from '../actions/blog.actions';
 
 export interface State extends EntityState<Blog> {
+  allBlogCount: number;
   errorMessage: string;
   selectedBlogId: string;
 }
@@ -14,12 +15,26 @@ export const adapter: EntityAdapter<Blog> = createEntityAdapter<Blog>({
 });
 
 export const initialState: State = adapter.getInitialState({
+  allBlogCount: 0,
   errorMessage: undefined,
   selectedBlogId: undefined,
 });
 
 export function reducer(state = initialState, action: BlogActionsUnion): State {
   switch (action.type) {
+    case BlogActionTypes.LOAD_ALL_BLOG_COUNT_SUCCESS: {
+      return {
+        ...state,
+        allBlogCount: action.payload,
+        errorMessage: undefined,
+      };
+    }
+    case BlogActionTypes.LOAD_ALL_BLOGS_FAIL: {
+      return {
+        ...state,
+        errorMessage: action.payload,
+      };
+    }
     case BlogActionTypes.LOAD_ALL_BLOGS_SUCCESS: {
       console.log('load all success action', action);
       return adapter.addMany(action.payload, { ...state, errorMessage: undefined });
@@ -40,14 +55,17 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
       };
     }
     case BlogActionTypes.LOAD_BLOGS_FROM_PAGE_SUCCESS: {
-      console.log('load from page success action', action);
-      return adapter.addMany(action.payload, { ...state, errorMessage: undefined });
+      
+      return adapter.addMany(action.payload, { ...adapter.removeAll(state), errorMessage: undefined });
     }
     case BlogActionTypes.LOAD_BLOGS_FROM_PAGE_FAIL: {
       return {
         ...state,
         errorMessage: action.payload,
       };
+    }
+    case BlogActionTypes.LOAD_ONE_BLOG: {
+      return { ...state, selectedBlogId: action.payload };
     }
     case BlogActionTypes.LOAD_ONE_BLOG_SUCCESS: {
       return adapter.addOne(action.payload, {
@@ -69,3 +87,4 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
 }
 
 export const getSelectedBlogId = (state: State) => state.selectedBlogId;
+export const getAllBlogCount = (state: State) => state.allBlogCount;

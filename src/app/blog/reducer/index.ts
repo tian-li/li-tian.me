@@ -36,6 +36,11 @@ export const getSelectedBlogId = createSelector(
   fromBlogs => fromBlogs.selectedBlogId
 );
 
+export const getAllBlogCount = createSelector(
+  getBlogEntitiesState,
+  fromBlogs => fromBlogs.allBlogCount
+);
+
 export const getSelectedBlog = createSelector(
   getBlogEntities,
   getSelectedBlogId,

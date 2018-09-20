@@ -1,9 +1,40 @@
 .blog-list-item-container {
-  margin-right: 30%;
   padding: 40px 0;
   border-bottom: #dadada 1px dotted;
 }
 
 .last-item {
   border-bottom: none;
+}
+
+.pagination-container {
+  margin-bottom: 40px;
+  text-align: center;
+
+  .previous-page {
+    margin-right: 15px;
+  }
+
+  .next-page {
+    margin-left: 15px;
+  }
+
+  a.page-number {
+    opacity: 0.6;
+    padding: 0 10px;
+    position: relative;
+  }
+
+  a.active {
+    opacity: 1;
+
+    &:after {
+      content: '·';
+      position: absolute;
+      bottom: -10px;
+      right: 12px;
+      font-weight: bold;
+      opacity: 0.4;
+    }
+  }
 }

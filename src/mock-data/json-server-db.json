@@ -28,7 +28,7 @@
       "title": "Aliquam eleifend leo sed eros vehicula condimentum.",
       "tags": [],
       "summary": "Morbi in tellus rhoncus, consequat ipsum nec, maximus arcu. Nam vitae tellus sed risus auctor sagittis.",
-      "content": "blog content",
+      "content": "<script>console.log('alert!!!!!')</script>\n\n`<p>一个段落</p>`",
       "authorId": "1",
       "createdDate": "2018-09-11T12:34"
     }, {

@@ -1,12 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser'
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import * as marked from 'marked';
 
-import { BlogService } from '../../service/blog.service';
 import * as fromBlog from '../../reducer';
 import { Blog } from '../../model/blog';
 import * as BlogActions from '../../actions/blog.actions';
@@ -15,15 +13,14 @@ import * as BlogActions from '../../actions/blog.actions';
   selector: 'app-blog-detail',
   templateUrl: './blog-detail.component.html',
   styleUrls: ['./blog-detail.component.scss'],
-  // encapsulation: ViewEncapsulation.None,
 })
 export class BlogDetailComponent implements OnInit {
   blog$: Observable<Blog>;
 
-  constructor(private blogService: BlogService,
+  constructor(
     private route: ActivatedRoute,
     private store: Store<fromBlog.State>,
-    private sanitizer: DomSanitizer) { }
+  ) { }
 
   ngOnInit(): void {
     this.blog$ = this.route.paramMap.pipe(
@@ -33,11 +30,13 @@ export class BlogDetailComponent implements OnInit {
       }));
   }
 
-  safe(html) {
-    console.log('html', html);
-    let res = marked(html, { sanitize: true });
+  
 
-    console.log('res', res);
-    return res;
-  }
+  // safe(html) {
+  //   console.log('html', html);
+  //   let res = marked(html, { sanitize: true });
+
+  //   console.log('res', res);
+  //   return res;
+  // }
 }
