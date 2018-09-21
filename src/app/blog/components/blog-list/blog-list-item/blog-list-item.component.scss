@@ -1,9 +1,14 @@
 .blog-list-item-title {
   font-size: 26px;
   margin-bottom: 10px;
+
   a {
+    transition: color 0.3s ease-in-out;
+    color: black;
+
     &:hover {
       color: #076DA6;
+      transition: color 0.3s ease-in-out;
     }
   }
 }
@@ -13,6 +18,7 @@
   font-weight: 400;
   opacity: 0.6;
   margin-bottom: 10px;
+
   .blog-tag {
     margin-left: 10px;
   }
@@ -21,4 +27,3 @@
 .blog-list-item-summary {
   font-size: 15px;
 }
-

@@ -1,5 +1,6 @@
 .blog-list-item-container {
-  padding: 40px 0;
+  padding-bottom: 40px;
+  margin-bottom: 40px;
   border-bottom: #dadada 1px dotted;
 }
 
@@ -25,7 +26,7 @@
     position: relative;
   }
 
-  a.active {
+  a.active-page {
     opacity: 1;
 
     &:after {

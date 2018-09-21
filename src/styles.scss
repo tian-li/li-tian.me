@@ -20,6 +20,10 @@ a {
   }
 }
 
+.unselectable {
+  user-select: none;
+}
+
 .blog-content-detail {
   div {
     p {
