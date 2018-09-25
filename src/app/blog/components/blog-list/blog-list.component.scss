@@ -29,7 +29,7 @@
   a.active-page {
     opacity: 1;
 
-    &:after {
+    &::after {
       content: '·';
       position: absolute;
       bottom: -10px;

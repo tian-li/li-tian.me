@@ -1,3 +1,5 @@
+import * as dayjs from 'dayjs';
+
 export class Blog {
   id: string;
   title: string;
@@ -13,7 +15,7 @@ export class Blog {
     this.content = blog.content;
     this.summary = blog.summary;
     this.authorId = blog.authorId;
-    this.createdDate = blog.createdDate;
+    this.createdDate = dayjs(blog.createdDate).format('MMM DD, YYYY');
     this.tags = blog.tags;
   }
 }
