@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import * as fromBlog from './reducer';
 import { Blog } from './model/blog';
 import * as BlogActions from './actions/blog.actions';
+import { BlogService } from './service/blog.service';
 
 @Component({
   selector: 'app-blog',
@@ -13,6 +14,17 @@ import * as BlogActions from './actions/blog.actions';
   styleUrls: ['blog.component.scss'],
 })
 export class BlogComponent {
+  constructor(private blogService: BlogService) { }
+
+  ngOnInit() {
+    this.blogService.loadAllBlogs();
+    // .subscribe((querySnapshot) => {
+    //   querySnapshot.forEach((doc) => {
+    //     console.log(doc.data());
+    //   });
+    //   console.log('blog service', querySnapshot);
+    // })
+  }
   // blogs$: Observable<Blog[]>;
   // allBlogCount: Observable<number>;
 
@@ -21,7 +33,7 @@ export class BlogComponent {
   //   private store: Store<fromBlog.State>,
   // ) {
   //   this.blogs$ = this.store.pipe(select(fromBlog.getAllBlogs));
-    
+
   // }
 
   // ngOnInit(): void {

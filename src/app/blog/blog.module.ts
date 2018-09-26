@@ -17,6 +17,7 @@ import { BlogService } from './service/blog.service';
 import { reducers } from './reducer';
 import { BlogEffects } from './effects/blog.effects';
 import { BlogListItemComponent } from './components/blog-list/blog-list-item/blog-list-item.component';
+import { FirebaseService } from '../shared/firebase.service';
 
 @NgModule({
   imports: [
@@ -34,7 +35,7 @@ import { BlogListItemComponent } from './components/blog-list/blog-list-item/blo
     BlogListItemComponent,
     MarkdownPipe,
   ],
-  providers: [BlogService],
+  providers: [BlogService, FirebaseService],
 })
 export class BlogModule {
 
