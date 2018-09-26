@@ -53,6 +53,11 @@ export class BlogEffects {
   loadAllBlogs$: Observable<Action> = this.actions$.pipe(
     ofType<LoadAllBlogs>(BlogActionTypes.LOAD_ALL_BLOGS),
     switchMap(() => {
+
+
+
+
+
       return this.http.get(this.serverUrl)
         .pipe(
           map((blogs: any) => {
@@ -104,5 +109,5 @@ export class BlogEffects {
     }),
   )
 
-  constructor(private http: HttpClient, private actions$: Actions, private blogService: BlogService) { }
+  constructor(private http: HttpClient, private actions$: Actions, private firebaseService: FirebaseService) { }
 }

@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { from } from 'rxjs/observable/from';
+import { of } from 'rxjs/observable/of';
 import { map } from 'lodash';
 
 import { Blog } from '../model/blog';
@@ -24,14 +25,18 @@ export class BlogService {
     this.blogsCollection = firebaseService.db.collection('blogs');
   }
 
-  loadAllBlogs() {
+  loadAllBlogs():Observable<Blog[]> {
     // from firebase
     this.blogsCollection.get().then((querySnapshot) => {
       let blogsres = map(querySnapshot.docs, (doc) => {
         return new Blog({id: doc.id, ...doc.data()});
       });
       console.log('blog from fb', blogsres);
-    });
+      return of(blogsres);
+    })
+    .catch((err) => {
+      return err;
+    })
 
     // from http
     // return this.http.get(`${this.serverUrl}/blogs`);
