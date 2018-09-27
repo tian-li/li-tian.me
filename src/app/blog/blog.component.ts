@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators/map';
+import * as _ from 'lodash';
 
 import * as fromBlog from './reducer';
 import { Blog } from './model/blog';
 import * as BlogActions from './actions/blog.actions';
 import { BlogService } from './service/blog.service';
+import { FirebaseService } from '../shared/firebase.service';
 
 @Component({
   selector: 'app-blog',
@@ -14,30 +17,38 @@ import { BlogService } from './service/blog.service';
   styleUrls: ['blog.component.scss'],
 })
 export class BlogComponent {
-  constructor(private blogService: BlogService) { }
+  constructor(private blogService: BlogService, private fbService: FirebaseService) { }
 
   ngOnInit() {
-    this.blogService.loadAllBlogs();
+    // this.blogService.loadAllBlogs()
+    // // .pipe(map((qs) => {
+    // //   return _.map(qs.docs, doc => {
+    // //     return new Blog({id: doc.id, ...doc.data()});
+    // //   })
+    // // }))
     // .subscribe((querySnapshot) => {
-    //   querySnapshot.forEach((doc) => {
-    //     console.log(doc.data());
-    //   });
-    //   console.log('blog service', querySnapshot);
+    //   console.log('from promise', querySnapshot);
+    //   // querySnapshot.forEach((doc) => {
+    //   //   console.log(doc.data());
+    //   // });
     // })
   }
-  // blogs$: Observable<Blog[]>;
-  // allBlogCount: Observable<number>;
 
-  // constructor(
-  //   private route: ActivatedRoute,
-  //   private store: Store<fromBlog.State>,
-  // ) {
-  //   this.blogs$ = this.store.pipe(select(fromBlog.getAllBlogs));
+  content: string;
 
-  // }
+  addNewPost() {
+    console.log('string', this.content);
+    this.fbService.addBlog(this.content);
+  }
 
-  // ngOnInit(): void {
-  //   this.store.dispatch(new BlogActions.LoadAllBlogCount());
-  //   this.route.paramMap.subscribe((params: ParamMap) => this.store.dispatch(new BlogActions.LoadBlogsFromPage(params.get('pageNumber'))));
-  // }
+  loadAtPage() {
+    let res = this.blogService.loadAtPage(2, 2);
+    console.log('res', res)
+
+    // res.then((value)=>{
+    //   console.log('valye', value)
+    // })
+  }
+
+
 }

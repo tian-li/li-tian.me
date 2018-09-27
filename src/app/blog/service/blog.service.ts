@@ -4,7 +4,9 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { from } from 'rxjs/observable/from';
 import { of } from 'rxjs/observable/of';
-import { map } from 'lodash';
+import { map } from 'rxjs/operators/map';
+import { filter } from 'rxjs/operators/filter';
+import * as _ from 'lodash';
 
 import { Blog } from '../model/blog';
 import * as fromBlog from '../reducer/blog.reducer';
@@ -22,32 +24,57 @@ export class BlogService {
     private store: Store<fromBlog.State>,
     private firebaseService: FirebaseService
   ) {
-    this.blogsCollection = firebaseService.db.collection('blogs');
+    this.blogsCollection = firebaseService.db.collection('blogs').orderBy('order');
   }
 
-  loadAllBlogs():Observable<Blog[]> {
+  loadAllBlogs(): Observable<Blog[]> {
     // from firebase
-    this.blogsCollection.get().then((querySnapshot) => {
-      let blogsres = map(querySnapshot.docs, (doc) => {
-        return new Blog({id: doc.id, ...doc.data()});
-      });
-      console.log('blog from fb', blogsres);
-      return of(blogsres);
-    })
-    .catch((err) => {
-      return err;
-    })
+    return from(this.blogsCollection.get())
+      .pipe(
+        filter((querySnapshot: any) => querySnapshot.docs.length > 0),
+        map((querySnapshot: any) => _.map(querySnapshot.docs, doc => new Blog({ id: doc.id, ...doc.data() }))));
 
     // from http
     // return this.http.get(`${this.serverUrl}/blogs`);
   }
 
-  loadOneBlog(blogId: string): Observable<any> {
-    return this.http.get(`${this.serverUrl}/blogs/${blogId}`);
+  loadOneBlog(blogId: string): Observable<Blog> {
+    // from firebase
+    return from(this.blogsCollection.doc(blogId).get())
+      .pipe(
+        map((documentSnapshot: any) => new Blog({ id: documentSnapshot.id, ...documentSnapshot.data() })));
+
+    // from http
+    // return this.http.get(`${this.serverUrl}/blogs/${blogId}`);
   }
 
   loadPage(page: string): Observable<any> {
     const params = new HttpParams().set('_page', page).set('_limit', '20');
     return this.http.get(`${this.serverUrl}/blogs`, { params });
+  }
+
+  loadAtPage(pageNumber: number, numberPerPage: number = 5) {
+    let first = this.blogsCollection.limit(numberPerPage).get();
+    if (pageNumber === 1) {
+      return from(first);
+    } else {
+      this.blogsCollection.limit((pageNumber - 1) * numberPerPage).get()
+    }
+
+
+    // if (!lastVisibleBlogId) {
+    //   return from(this.blogsCollection.limit(numberPerPage).get());
+    // } else {
+    //   return from(this.blogsCollection.startAfter(lastVisibleBlogId).limit(numberPerPage));
+    // }
+
+
+    // let next = this.blogsCollection
+    //   .startAfter(lastVisibleBlogId)
+    //   .limit(numberPerPage);
+    // next.get().then((ds) => {
+    //   console.log('next ds', ds)
+    // })
+    // });
   }
 }

@@ -16,9 +16,9 @@ export enum BlogActionTypes {
   LOAD_MULTIPLE_BLOGS_SUCCESS = '[Blog] Load Multiple Blogs Success',
   LOAD_MULTIPLE_BLOGS_FAIL = '[Blog] Load Multiple Blogs Fail',
 
-  LOAD_BLOGS_FROM_PAGE = '[Blog] Load Blogs From Page',
-  LOAD_BLOGS_FROM_PAGE_SUCCESS = '[Blog] Load Blogs From Page Success',
-  LOAD_BLOGS_FROM_PAGE_FAIL = '[Blog] Load Blogs From Page Fail',
+  LOAD_BLOGS_AT_PAGE = '[Blog] Load Blogs At Page',
+  LOAD_BLOGS_AT_PAGE_SUCCESS = '[Blog] Load Blogs At Page Success',
+  LOAD_BLOGS_AT_PAGE_FAIL = '[Blog] Load Blogs At Page Fail',
 
   LOAD_ONE_BLOG = '[Blog] Load One Blog',
   LOAD_ONE_BLOG_SUCCESS = '[Blog] Load One Blog Success',
@@ -73,20 +73,20 @@ export class LoadMultipleBlogsFail implements Action {
   constructor(public payload: string) { }
 }
 
-export class LoadBlogsFromPage implements Action {
-  readonly type = BlogActionTypes.LOAD_BLOGS_FROM_PAGE;
+export class LoadBlogsAtPage implements Action {
+  readonly type = BlogActionTypes.LOAD_BLOGS_AT_PAGE;
 
-  constructor(public payload: { pageNumber: string, limit: string }) { }
+  constructor(public payload: { pageNumber: number, limit: number }) { }
 }
 
-export class LoadBlogsFromPageSuccess implements Action {
-  readonly type = BlogActionTypes.LOAD_BLOGS_FROM_PAGE_SUCCESS;
+export class LoadBlogsAtPageSuccess implements Action {
+  readonly type = BlogActionTypes.LOAD_BLOGS_AT_PAGE_SUCCESS;
 
   constructor(public payload: Blog[]) { }
 }
 
-export class LoadBlogsFromPageFail implements Action {
-  readonly type = BlogActionTypes.LOAD_BLOGS_FROM_PAGE_FAIL;
+export class LoadBlogsAtPageFail implements Action {
+  readonly type = BlogActionTypes.LOAD_BLOGS_AT_PAGE_FAIL;
 
   constructor(public payload: string) { }
 }
@@ -119,9 +119,9 @@ export type BlogActionsUnion =
   | LoadMultipleBlogsSuccess
   | LoadMultipleBlogsFail
   | LoadMultipleBlogs
-  | LoadBlogsFromPage
-  | LoadBlogsFromPageSuccess
-  | LoadBlogsFromPageFail
+  | LoadBlogsAtPage
+  | LoadBlogsAtPageSuccess
+  | LoadBlogsAtPageFail
   | LoadOneBlog
   | LoadOneBlogSuccess
   | LoadOneBlogFail;

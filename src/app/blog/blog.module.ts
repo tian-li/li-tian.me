@@ -12,6 +12,7 @@ import { BlogRoutingModule } from './blog-routing.module';
 import { BlogListComponent } from './components/blog-list/blog-list.component';
 import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
 import { MarkdownPipe } from './components/blog-detail/markdown.pipe';
+import { FormsModule } from '@angular/forms';
 
 import { BlogService } from './service/blog.service';
 import { reducers } from './reducer';
@@ -22,6 +23,7 @@ import { FirebaseService } from '../shared/firebase.service';
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     FlexLayoutModule,
     BlogMaterialModule,
     BlogRoutingModule,

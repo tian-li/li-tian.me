@@ -18,14 +18,15 @@ import {
   LoadOneBlog,
   LoadOneBlogSuccess,
   LoadOneBlogFail,
-  LoadBlogsFromPage,
-  LoadBlogsFromPageSuccess,
-  LoadBlogsFromPageFail,
+  LoadBlogsAtPage,
+  LoadBlogsAtPageSuccess,
+  LoadBlogsAtPageFail,
   LoadAllBlogCount,
   LoadAllBlogCountSuccess,
   LoadAllBlogCountFail,
 } from '../actions/blog.actions';
 import { BlogService } from '../service/blog.service';
+import { FirebaseService } from '../../shared/firebase.service';
 
 @Injectable()
 export class BlogEffects {
@@ -36,9 +37,9 @@ export class BlogEffects {
   loadAllBlogCount$: Observable<Action> = this.actions$.pipe(
     ofType<LoadAllBlogCount>(BlogActionTypes.LOAD_ALL_BLOG_COUNT),
     switchMap(() => {
-      return this.http.get(this.serverUrl)
+      return this.blogService.loadAllBlogs()
         .pipe(
-          map((blogs: any[]) => {
+          map((blogs: Blog[]) => {
             return new LoadAllBlogCountSuccess(blogs.length);
           }),
           catchError((err: any) => {
@@ -53,15 +54,12 @@ export class BlogEffects {
   loadAllBlogs$: Observable<Action> = this.actions$.pipe(
     ofType<LoadAllBlogs>(BlogActionTypes.LOAD_ALL_BLOGS),
     switchMap(() => {
-
-
-
-
-
-      return this.http.get(this.serverUrl)
+      // return this.http.get(this.serverUrl)
+      return this.blogService.loadAllBlogs()
         .pipe(
-          map((blogs: any) => {
-            return new LoadAllBlogsSuccess(_map(blogs, (blog: any) => new Blog(blog)));
+          map((blogs: Blog[]) => {
+            console.log('all blogs', blogs)
+            return new LoadAllBlogsSuccess(blogs);
           }),
           catchError((err: any) => {
             console.log('err', err);
@@ -72,19 +70,20 @@ export class BlogEffects {
   );
 
   @Effect()
-  loadBlogsFromPage$: Observable<Action> = this.actions$.pipe(
-    ofType<LoadBlogsFromPage>(BlogActionTypes.LOAD_BLOGS_FROM_PAGE),
-    map((action: LoadBlogsFromPage) => action.payload),
-    switchMap((payload: { pageNumber: string, limit: string }) => {
-      const params = new HttpParams().set('_page', payload.pageNumber).set('_limit', payload.limit);
-      return this.http.get(`${this.serverUrl}`, { params })
+  loadBlogsAtPage$: Observable<Action> = this.actions$.pipe(
+    ofType<LoadBlogsAtPage>(BlogActionTypes.LOAD_BLOGS_AT_PAGE),
+    map((action: LoadBlogsAtPage) => action.payload),
+    switchMap((payload: { pageNumber: number, limit: number }) => {
+      // const params = new HttpParams().set('_page', payload.pageNumber).set('_limit', payload.limit);
+      // return this.http.get(`${this.serverUrl}`, { params })
+      return this.blogService.loadAtPage(payload.pageNumber, payload.limit)
         .pipe(
-          map((blogs: any) => {
-            return new LoadBlogsFromPageSuccess(_map(blogs, (blog: any) => new Blog(blog)));
+          map((blogs: Blog[]) => {
+            return new LoadBlogsAtPageSuccess(blogs);
           }),
           catchError((err: any) => {
             console.log('err', err);
-            return of(new LoadBlogsFromPageFail(err));
+            return of(new LoadBlogsAtPageFail(err));
           }),
         );
     }),
@@ -95,11 +94,13 @@ export class BlogEffects {
     ofType<LoadOneBlog>(BlogActionTypes.LOAD_ONE_BLOG),
     map((action: LoadOneBlog) => action.payload),
     switchMap((blogId: string) => {
-      return this.http.get(`${this.serverUrl}/${blogId}`)
+      // return this.http.get(`${this.serverUrl}/${blogId}`)
+      return this.blogService.loadOneBlog(blogId)
         .pipe(
-          map((blog: any) => {
+          map((blog: Blog) => {
             console.log('one blog', blog);
-            return new LoadOneBlogSuccess(new Blog(blog));
+            // return new LoadOneBlogSuccess(new Blog(blog));
+            return new LoadOneBlogSuccess(blog);
           }),
           catchError((err: any) => {
             console.log('err', err);
@@ -109,5 +110,10 @@ export class BlogEffects {
     }),
   )
 
-  constructor(private http: HttpClient, private actions$: Actions, private firebaseService: FirebaseService) { }
+  constructor(
+    private http: HttpClient,
+    private actions$: Actions,
+    private firebaseService: FirebaseService,
+    private blogService: BlogService, 
+  ) { }
 }

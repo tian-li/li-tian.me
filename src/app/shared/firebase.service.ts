@@ -19,7 +19,7 @@ export class FirebaseService {
     this.firestore.settings({
       timestampsInSnapshots: true
     });
-    // this.blogCollectionRef = this.firestore.collection('blogs');
+    this.blogCollectionRef = this.firestore.collection('blogs');
     // this.blogCollectionRef.get().then((collection) => {
     //   collection.forEach(element => {
     //     console.log('doc', element.data());
@@ -31,14 +31,22 @@ export class FirebaseService {
     return this.firestore;
   }
 
+  get blogsCollection() {
+    return this.firestore.collection('blogs');
+  }
+
   get blogRef() {
     return this.blogCollectionRef;
   }
 
-  addBlog() {
-    this.blogCollectionRef.add({
-      title:'add'
-    })
+  addBlog(content) {
+    let post = {
+      title:'add',
+      content: content,
+      createdDate: '2018-09-26T20:18'
+    }
+    console.log('post', post);
+    this.blogCollectionRef.add(post)
     .then((docRef) => {
       console.log('doc added', docRef);
     })

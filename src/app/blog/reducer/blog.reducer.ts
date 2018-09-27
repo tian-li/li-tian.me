@@ -7,6 +7,7 @@ export interface State extends EntityState<Blog> {
   allBlogCount: number;
   errorMessage: string;
   selectedBlogId: string;
+  lastVisibleBlogId: string;
 }
 
 export const adapter: EntityAdapter<Blog> = createEntityAdapter<Blog>({
@@ -18,6 +19,7 @@ export const initialState: State = adapter.getInitialState({
   allBlogCount: 0,
   errorMessage: undefined,
   selectedBlogId: undefined,
+  lastVisibleBlogId: undefined,
 });
 
 export function reducer(state = initialState, action: BlogActionsUnion): State {
@@ -54,14 +56,19 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
         errorMessage: action.payload,
       };
     }
-    case BlogActionTypes.LOAD_BLOGS_FROM_PAGE_SUCCESS: {
-      
-      return adapter.addMany(action.payload, { ...adapter.removeAll(state), errorMessage: undefined });
+    case BlogActionTypes.LOAD_BLOGS_AT_PAGE_SUCCESS: {
+
+      return adapter.addMany(action.payload, {
+        ...adapter.removeAll(state),
+        errorMessage: undefined,
+        // lastVisibleBlogId: action.payload.lastVisibleBlogId,
+      });
     }
-    case BlogActionTypes.LOAD_BLOGS_FROM_PAGE_FAIL: {
+    case BlogActionTypes.LOAD_BLOGS_AT_PAGE_FAIL: {
       return {
         ...state,
         errorMessage: action.payload,
+        // lastVisibleBlogId: undefined,
       };
     }
     case BlogActionTypes.LOAD_ONE_BLOG: {
@@ -88,3 +95,4 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
 
 export const getSelectedBlogId = (state: State) => state.selectedBlogId;
 export const getAllBlogCount = (state: State) => state.allBlogCount;
+export const getLastVisibleBlogId = (state: State) => state.lastVisibleBlogId;
