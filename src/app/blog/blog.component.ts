@@ -42,7 +42,7 @@ export class BlogComponent {
   }
 
   loadAtPage() {
-    let res = this.blogService.loadAtPage(2, 2);
+    let res = this.blogService.loadAtPage('2', 2);
     console.log('res', res)
 
     // res.then((value)=>{

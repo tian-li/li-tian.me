@@ -5,9 +5,9 @@ import { BlogActionTypes, BlogActionsUnion } from '../actions/blog.actions';
 
 export interface State extends EntityState<Blog> {
   allBlogCount: number;
+  allBlogIds: string[];
   errorMessage: string;
   selectedBlogId: string;
-  lastVisibleBlogId: string;
 }
 
 export const adapter: EntityAdapter<Blog> = createEntityAdapter<Blog>({
@@ -17,9 +17,9 @@ export const adapter: EntityAdapter<Blog> = createEntityAdapter<Blog>({
 
 export const initialState: State = adapter.getInitialState({
   allBlogCount: 0,
+  allBlogIds: [],
   errorMessage: undefined,
   selectedBlogId: undefined,
-  lastVisibleBlogId: undefined,
 });
 
 export function reducer(state = initialState, action: BlogActionsUnion): State {
@@ -31,17 +31,21 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
         errorMessage: undefined,
       };
     }
-    case BlogActionTypes.LOAD_ALL_BLOGS_FAIL: {
+    case BlogActionTypes.LOAD_ALL_BLOG_COUNT_FAIL: {
       return {
         ...state,
         errorMessage: action.payload,
       };
     }
-    case BlogActionTypes.LOAD_ALL_BLOGS_SUCCESS: {
-      console.log('load all success action', action);
-      return adapter.addMany(action.payload, { ...state, errorMessage: undefined });
+    case BlogActionTypes.LOAD_ALL_BLOGS_INFO_SUCCESS: {
+      return {
+        ...state, 
+        allBlogCount: action.payload.allBlogCount,
+        allBlogIds: action.payload.allBlogIds,
+        errorMessage: undefined,
+      };
     }
-    case BlogActionTypes.LOAD_ALL_BLOGS_FAIL: {
+    case BlogActionTypes.LOAD_ALL_BLOGS_INFO_FAIL: {
       return {
         ...state,
         errorMessage: action.payload,
@@ -61,14 +65,12 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
       return adapter.addMany(action.payload, {
         ...adapter.removeAll(state),
         errorMessage: undefined,
-        // lastVisibleBlogId: action.payload.lastVisibleBlogId,
       });
     }
     case BlogActionTypes.LOAD_BLOGS_AT_PAGE_FAIL: {
       return {
         ...state,
         errorMessage: action.payload,
-        // lastVisibleBlogId: undefined,
       };
     }
     case BlogActionTypes.LOAD_ONE_BLOG: {
@@ -95,4 +97,4 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
 
 export const getSelectedBlogId = (state: State) => state.selectedBlogId;
 export const getAllBlogCount = (state: State) => state.allBlogCount;
-export const getLastVisibleBlogId = (state: State) => state.lastVisibleBlogId;
+export const getAllBlogIds = (state: State) => state.allBlogIds;

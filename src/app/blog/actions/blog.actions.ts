@@ -7,10 +7,9 @@ export enum BlogActionTypes {
   LOAD_ALL_BLOG_COUNT_SUCCESS = '[Blog] Load All Blog Count Success',
   LOAD_ALL_BLOG_COUNT_FAIL = '[Blog] Load All Blog Count Fail',
 
-
-  LOAD_ALL_BLOGS = '[Blog] Load All Blogs',
-  LOAD_ALL_BLOGS_SUCCESS = '[Blog] Load All Blogs Success',
-  LOAD_ALL_BLOGS_FAIL = '[Blog] Load All Blogs Fail',
+  LOAD_ALL_BLOGS_INFO = '[Blog] Load All Blogs Info',
+  LOAD_ALL_BLOGS_INFO_SUCCESS = '[Blog] Load All Blogs Info Success',
+  LOAD_ALL_BLOGS_INFO_FAIL = '[Blog] Load All Blogs Info Fail',
 
   LOAD_MULTIPLE_BLOGS = '[Blog] Load Multiple Blogs',
   LOAD_MULTIPLE_BLOGS_SUCCESS = '[Blog] Load Multiple Blogs Success',
@@ -41,18 +40,18 @@ export class LoadAllBlogCountFail implements Action {
   constructor(public payload: string) { }
 }
 
-export class LoadAllBlogs implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOGS;
+export class LoadAllBlogsInfo implements Action {
+  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_INFO;
 }
 
-export class LoadAllBlogsSuccess implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_SUCCESS;
+export class LoadAllBlogsInfoSuccess implements Action {
+  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_INFO_SUCCESS;
 
-  constructor(public payload: Blog[]) { }
+  constructor(public payload: { allBlogCount: number, allBlogIds: string[] }) { }
 }
 
-export class LoadAllBlogsFail implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_FAIL;
+export class LoadAllBlogsInfoFail implements Action {
+  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_INFO_FAIL;
 
   constructor(public payload: string) { }
 }
@@ -76,7 +75,7 @@ export class LoadMultipleBlogsFail implements Action {
 export class LoadBlogsAtPage implements Action {
   readonly type = BlogActionTypes.LOAD_BLOGS_AT_PAGE;
 
-  constructor(public payload: { pageNumber: number, limit: number }) { }
+  constructor(public payload: { startAtId: string, limit: number }) { }
 }
 
 export class LoadBlogsAtPageSuccess implements Action {
@@ -113,9 +112,9 @@ export type BlogActionsUnion =
   |LoadAllBlogCount
   | LoadAllBlogCountSuccess
   | LoadAllBlogCountFail
-  | LoadAllBlogs
-  | LoadAllBlogsSuccess
-  | LoadAllBlogsFail
+  | LoadAllBlogsInfo
+  | LoadAllBlogsInfoSuccess
+  | LoadAllBlogsInfoFail
   | LoadMultipleBlogsSuccess
   | LoadMultipleBlogsFail
   | LoadMultipleBlogs

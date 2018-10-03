@@ -24,57 +24,32 @@ export class BlogService {
     private store: Store<fromBlog.State>,
     private firebaseService: FirebaseService
   ) {
-    this.blogsCollection = firebaseService.db.collection('blogs').orderBy('order');
+    this.blogsCollection = firebaseService.db.collection('blogs');
   }
 
-  loadAllBlogs(): Observable<Blog[]> {
-    // from firebase
-    return from(this.blogsCollection.get())
-      .pipe(
-        filter((querySnapshot: any) => querySnapshot.docs.length > 0),
-        map((querySnapshot: any) => _.map(querySnapshot.docs, doc => new Blog({ id: doc.id, ...doc.data() }))));
-
-    // from http
-    // return this.http.get(`${this.serverUrl}/blogs`);
+  loadAllBlogsInfo(): Observable<any> {
+    return from(this.blogsCollection.orderBy('order').get()).pipe(
+      filter((querySnapshot: any) => querySnapshot.docs.length > 0),
+      map((querySnapshot: any) => {
+        let allBlogIds = _.map(querySnapshot.docs, (doc: any) => doc.id);
+        let allBlogCount = querySnapshot.size;
+        return { allBlogCount, allBlogIds };
+      }));
   }
 
   loadOneBlog(blogId: string): Observable<Blog> {
-    // from firebase
     return from(this.blogsCollection.doc(blogId).get())
       .pipe(
         map((documentSnapshot: any) => new Blog({ id: documentSnapshot.id, ...documentSnapshot.data() })));
-
-    // from http
-    // return this.http.get(`${this.serverUrl}/blogs/${blogId}`);
   }
 
-  loadPage(page: string): Observable<any> {
-    const params = new HttpParams().set('_page', page).set('_limit', '20');
-    return this.http.get(`${this.serverUrl}/blogs`, { params });
+  loadAtPage(startAtId: string, numberPerPage: number): Observable<Blog[]> {
+    return this.createObservable(this.blogsCollection.orderBy('order').startAt(startAtId).limit(numberPerPage).get());
   }
 
-  loadAtPage(pageNumber: number, numberPerPage: number = 5) {
-    let first = this.blogsCollection.limit(numberPerPage).get();
-    if (pageNumber === 1) {
-      return from(first);
-    } else {
-      this.blogsCollection.limit((pageNumber - 1) * numberPerPage).get()
-    }
-
-
-    // if (!lastVisibleBlogId) {
-    //   return from(this.blogsCollection.limit(numberPerPage).get());
-    // } else {
-    //   return from(this.blogsCollection.startAfter(lastVisibleBlogId).limit(numberPerPage));
-    // }
-
-
-    // let next = this.blogsCollection
-    //   .startAfter(lastVisibleBlogId)
-    //   .limit(numberPerPage);
-    // next.get().then((ds) => {
-    //   console.log('next ds', ds)
-    // })
-    // });
+  createObservable(promise: any): Observable<Blog[]> {
+    return from(promise).pipe(
+      filter((querySnapshot: any) => querySnapshot.docs.length > 0),
+      map((querySnapshot: any) => _.map(querySnapshot.docs, doc => new Blog({ id: doc.id, ...doc.data() }))));
   }
 }

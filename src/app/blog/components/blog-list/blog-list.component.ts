@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators/filter';
 
 import { Blog } from '../../model/blog';
 import * as fromBlog from '../../reducer';
@@ -15,8 +16,8 @@ import * as BlogActions from '../../actions/blog.actions';
 export class BlogListComponent implements OnInit {
   blogs$: Observable<Blog[]>;
   blogCount: number;
-  blogsPerPage: number = 7;
-  currentPage: string;
+  blogsPerPage: number = 3;
+  currentPage: number;
 
   constructor(
     private router: Router,
@@ -24,28 +25,30 @@ export class BlogListComponent implements OnInit {
     private store: Store<fromBlog.State>,
   ) {
     this.blogs$ = this.store.pipe(select(fromBlog.getAllBlogs));
-    this.store.pipe(select(fromBlog.getAllBlogCount)).subscribe((blogCount:number) => this.blogCount = blogCount);
+    this.store.pipe(select(fromBlog.getAllBlogCount)).subscribe((blogCount: number) => this.blogCount = blogCount);
   }
 
-  ngOnInit() {
-    this.store.dispatch(new BlogActions.LoadAllBlogCount());
-    this.route.paramMap.subscribe((params: ParamMap) =>{
-      this.currentPage = params.get('pageNumber');
-      console.log('current page', params.get('pageNumber'));
-      this.store.dispatch(new BlogActions.LoadBlogsFromPage({pageNumber: this.currentPage, limit: this.blogsPerPage + '' }))
+  ngOnInit(): void {
+    this.store.dispatch(new BlogActions.LoadAllBlogsInfo());
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.currentPage = parseInt(params.get('pageNumber'));
+      this.store.pipe(select(fromBlog.getBlogIdAtPosition, { position: this.blogsPerPage * (this.currentPage - 1) }))
+      .pipe(filter((id: string) => !!id)).subscribe((id: string) => {
+        this.store.dispatch(new BlogActions.LoadBlogsAtPage({ startAtId: id, limit: this.blogsPerPage }))
+      });
     });
   }
 
-  get pageNumbers(): string[] {
+  get pageNumbers(): number[] {
     let remaining: number = this.blogCount;
-    let pageNumbersArray: string[] = [];
+    let pageNumbersArray: number[] = [];
     let currentPage: number = 1;
     while (remaining > this.blogsPerPage) {
-      pageNumbersArray.push(String(currentPage++));
+      pageNumbersArray.push(currentPage++);
       remaining -= this.blogsPerPage;
     }
     if (remaining > 0) {
-      pageNumbersArray.push(String(currentPage++));
+      pageNumbersArray.push(currentPage++);
     }
     return pageNumbersArray;
   }
@@ -55,7 +58,7 @@ export class BlogListComponent implements OnInit {
   }
 
   nextPage(): void {
-  
+
     this.router.navigate(['../', String(Number(this.currentPage) + 1)], { relativeTo: this.route });
   }
 
@@ -63,12 +66,12 @@ export class BlogListComponent implements OnInit {
     console.log('current page', this.currentPage);
     console.log('current page type', typeof this.currentPage);
     console.log('pagenumbers', this.pageNumbers);
-    console.log('is fisrt', this.currentPage === '1');
+    console.log('is fisrt', this.currentPage === 1);
     // console.log('is last', this.currentPage === this.pageNumbers.slice(-1))
   }
 
   get disablePrevious(): boolean {
-    return this.currentPage === '1';
+    return this.currentPage === 1;
   }
 
   get disableNext(): boolean {

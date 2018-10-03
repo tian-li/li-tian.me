@@ -9,9 +9,9 @@ import { map as _map } from 'lodash';
 import { Blog } from '../model/blog';
 import {
   BlogActionTypes,
-  LoadAllBlogs,
-  LoadAllBlogsSuccess,
-  LoadAllBlogsFail,
+  LoadAllBlogsInfo,
+  LoadAllBlogsInfoSuccess,
+  LoadAllBlogsInfoFail,
   LoadMultipleBlogsSuccess,
   LoadMultipleBlogsFail,
   LoadMultipleBlogs,
@@ -34,37 +34,13 @@ export class BlogEffects {
   serverUrl: string = 'http://localhost:3000/blogs';
 
   @Effect()
-  loadAllBlogCount$: Observable<Action> = this.actions$.pipe(
-    ofType<LoadAllBlogCount>(BlogActionTypes.LOAD_ALL_BLOG_COUNT),
+  loadAllBlogsInfo$: Observable<Action> = this.actions$.pipe(
+    ofType<LoadAllBlogsInfo>(BlogActionTypes.LOAD_ALL_BLOGS_INFO),
     switchMap(() => {
-      return this.blogService.loadAllBlogs()
+      return this.blogService.loadAllBlogsInfo()
         .pipe(
-          map((blogs: Blog[]) => {
-            return new LoadAllBlogCountSuccess(blogs.length);
-          }),
-          catchError((err: any) => {
-            console.log('err', err);
-            return of(new LoadAllBlogCountFail(err));
-          }),
-        );
-    }),
-  );
-
-  @Effect()
-  loadAllBlogs$: Observable<Action> = this.actions$.pipe(
-    ofType<LoadAllBlogs>(BlogActionTypes.LOAD_ALL_BLOGS),
-    switchMap(() => {
-      // return this.http.get(this.serverUrl)
-      return this.blogService.loadAllBlogs()
-        .pipe(
-          map((blogs: Blog[]) => {
-            console.log('all blogs', blogs)
-            return new LoadAllBlogsSuccess(blogs);
-          }),
-          catchError((err: any) => {
-            console.log('err', err);
-            return of(new LoadAllBlogsFail(err));
-          }),
+          map((blogsInfo: { allBlogCount: number, allBlogIds: string[] }) => new LoadAllBlogsInfoSuccess(blogsInfo)),
+          catchError((err: any) => of(new LoadAllBlogsInfoFail(err))),
         );
     }),
   );
@@ -73,18 +49,11 @@ export class BlogEffects {
   loadBlogsAtPage$: Observable<Action> = this.actions$.pipe(
     ofType<LoadBlogsAtPage>(BlogActionTypes.LOAD_BLOGS_AT_PAGE),
     map((action: LoadBlogsAtPage) => action.payload),
-    switchMap((payload: { pageNumber: number, limit: number }) => {
-      // const params = new HttpParams().set('_page', payload.pageNumber).set('_limit', payload.limit);
-      // return this.http.get(`${this.serverUrl}`, { params })
-      return this.blogService.loadAtPage(payload.pageNumber, payload.limit)
+    switchMap((payload: { startAtId: string, limit: number }) => {
+      return this.blogService.loadAtPage(payload.startAtId, payload.limit)
         .pipe(
-          map((blogs: Blog[]) => {
-            return new LoadBlogsAtPageSuccess(blogs);
-          }),
-          catchError((err: any) => {
-            console.log('err', err);
-            return of(new LoadBlogsAtPageFail(err));
-          }),
+          map((blogs: Blog[]) => new LoadBlogsAtPageSuccess(blogs)),
+          catchError((err: any) => of(new LoadBlogsAtPageFail(err))),
         );
     }),
   );
@@ -94,18 +63,10 @@ export class BlogEffects {
     ofType<LoadOneBlog>(BlogActionTypes.LOAD_ONE_BLOG),
     map((action: LoadOneBlog) => action.payload),
     switchMap((blogId: string) => {
-      // return this.http.get(`${this.serverUrl}/${blogId}`)
       return this.blogService.loadOneBlog(blogId)
         .pipe(
-          map((blog: Blog) => {
-            console.log('one blog', blog);
-            // return new LoadOneBlogSuccess(new Blog(blog));
-            return new LoadOneBlogSuccess(blog);
-          }),
-          catchError((err: any) => {
-            console.log('err', err);
-            return of(new LoadOneBlogFail(err));
-          }),
+          map((blog: Blog) => new LoadOneBlogSuccess(blog)),
+          catchError((err: any) => of(new LoadOneBlogFail(err))),
         );
     }),
   )

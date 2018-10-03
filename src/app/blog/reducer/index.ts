@@ -41,15 +41,20 @@ export const getAllBlogCount = createSelector(
   fromBlogs => fromBlogs.allBlogCount
 );
 
-export const getLastVisibleBlogId = createSelector(
-  getBlogEntitiesState,
-  fromBlogs => fromBlogs.lastVisibleBlogId
-);
-
 export const getSelectedBlog = createSelector(
   getBlogEntities,
   getSelectedBlogId,
   (entities, selectedId) => {
     return selectedId && entities[selectedId];
   }
+);
+
+export const getAllBlogIds = createSelector(
+  getBlogEntitiesState,
+  fromBlogs => fromBlogs.allBlogIds
+);
+
+export const getBlogIdAtPosition = createSelector(
+  getBlogEntitiesState,
+  (fromBlogs, props) => fromBlogs.allBlogIds[props.position]
 );
