@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators/map';
 import * as _ from 'lodash';
 
+
 import * as fromBlog from './reducer';
 import { Blog } from './model/blog';
 import * as BlogActions from './actions/blog.actions';
@@ -19,26 +20,11 @@ import { FirebaseService } from '../shared/firebase.service';
 export class BlogComponent {
   constructor(private blogService: BlogService, private fbService: FirebaseService) { }
 
-  ngOnInit() {
-    // this.blogService.loadAllBlogs()
-    // // .pipe(map((qs) => {
-    // //   return _.map(qs.docs, doc => {
-    // //     return new Blog({id: doc.id, ...doc.data()});
-    // //   })
-    // // }))
-    // .subscribe((querySnapshot) => {
-    //   console.log('from promise', querySnapshot);
-    //   // querySnapshot.forEach((doc) => {
-    //   //   console.log(doc.data());
-    //   // });
-    // })
-  }
-
   content: string;
+  title: string;
 
   addNewPost() {
-    console.log('string', this.content);
-    this.fbService.addBlog(this.content);
+    this.fbService.addBlog({title: this.title, content: this.content});
   }
 
   loadAtPage() {

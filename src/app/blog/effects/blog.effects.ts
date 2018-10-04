@@ -52,7 +52,10 @@ export class BlogEffects {
     switchMap((payload: { startAtId: string, limit: number }) => {
       return this.blogService.loadAtPage(payload.startAtId, payload.limit)
         .pipe(
-          map((blogs: Blog[]) => new LoadBlogsAtPageSuccess(blogs)),
+          map((blogs: Blog[]) => {
+            console.log('blogs', blogs);
+            return new LoadBlogsAtPageSuccess(blogs)
+          }),
           catchError((err: any) => of(new LoadBlogsAtPageFail(err))),
         );
     }),

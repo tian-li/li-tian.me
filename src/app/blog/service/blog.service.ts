@@ -18,6 +18,7 @@ export class BlogService {
   blogs: Blog[];
   serverUrl: string = 'http://localhost:3000';
   blogsCollection;
+  orderedBlogsCollection;
 
   constructor(
     private http: HttpClient,
@@ -25,13 +26,14 @@ export class BlogService {
     private firebaseService: FirebaseService
   ) {
     this.blogsCollection = firebaseService.db.collection('blogs');
+    this.orderedBlogsCollection = firebaseService.db.collection('blogs').orderBy('createdDate');
   }
 
   loadAllBlogsInfo(): Observable<any> {
-    return from(this.blogsCollection.orderBy('order').get()).pipe(
+    return from(this.orderedBlogsCollection.get()).pipe(
       filter((querySnapshot: any) => querySnapshot.docs.length > 0),
       map((querySnapshot: any) => {
-        let allBlogIds = _.map(querySnapshot.docs, (doc: any) => doc.id);
+        let allBlogIds = _.map(querySnapshot.docs, (doc: any) => doc.data().createdDate);
         let allBlogCount = querySnapshot.size;
         return { allBlogCount, allBlogIds };
       }));
@@ -44,7 +46,15 @@ export class BlogService {
   }
 
   loadAtPage(startAtId: string, numberPerPage: number): Observable<Blog[]> {
-    return this.createObservable(this.blogsCollection.orderBy('order').startAt(startAtId).limit(numberPerPage).get());
+    console.log('startat', startAtId);
+    console.log('numberPerPage', numberPerPage);
+    // startAtId = '2018-10-03T22:00';
+
+    this.orderedBlogsCollection.startAt(startAtId).limit(numberPerPage).get().then((v) => {
+      v.forEach(d => console.log('at page', d.id, d.data()))
+    })
+
+    return this.createObservable(this.orderedBlogsCollection.startAt(startAtId).limit(numberPerPage).get());
   }
 
   createObservable(promise: any): Observable<Blog[]> {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-
+import * as dayjs from 'dayjs';
 @Injectable()
 export class FirebaseService {
   firestore;
@@ -20,11 +20,6 @@ export class FirebaseService {
       timestampsInSnapshots: true
     });
     this.blogCollectionRef = this.firestore.collection('blogs');
-    // this.blogCollectionRef.get().then((collection) => {
-    //   collection.forEach(element => {
-    //     console.log('doc', element.data());
-    //   });
-    // })
   }
 
   get db() {
@@ -39,11 +34,12 @@ export class FirebaseService {
     return this.blogCollectionRef;
   }
 
-  addBlog(content) {
+  addBlog(blog: {title: string, content: string}) {
     let post = {
-      title:'add',
-      content: content,
-      createdDate: '2018-09-26T20:18'
+      title: blog.title,
+      content: blog.content,
+      createdDate: new Date().valueOf().toString(),
+      // id: new Date().valueOf(),
     }
     console.log('post', post);
     this.blogCollectionRef.add(post)

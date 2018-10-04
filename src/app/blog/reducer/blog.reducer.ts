@@ -61,6 +61,7 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
       };
     }
     case BlogActionTypes.LOAD_BLOGS_AT_PAGE_SUCCESS: {
+      console.log('load at page', action);
 
       return adapter.addMany(action.payload, {
         ...adapter.removeAll(state),
