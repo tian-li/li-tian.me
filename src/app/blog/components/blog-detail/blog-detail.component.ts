@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import * as marked from 'marked';
 
+import * as hljs from 'highlight.js';
+
 import * as fromBlog from '../../reducer';
 import { Blog } from '../../model/blog';
 import * as BlogActions from '../../actions/blog.actions';
@@ -30,13 +32,9 @@ export class BlogDetailComponent implements OnInit {
       }));
   }
 
-  
+  ngAfterViewInit() {
+    console.log('hljs', hljs)
+    hljs.initHighlightingOnLoad();
+  }
 
-  // safe(html) {
-  //   console.log('html', html);
-  //   let res = marked(html, { sanitize: true });
-
-  //   console.log('res', res);
-  //   return res;
-  // }
 }
