@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import * as dayjs from 'dayjs';
+
 @Injectable()
 export class FirebaseService {
   firestore;
@@ -16,37 +16,29 @@ export class FirebaseService {
     };
     firebase.initializeApp(config);
     this.firestore = firebase.firestore();
-    this.firestore.settings({
-      timestampsInSnapshots: true
-    });
-    this.blogCollectionRef = this.firestore.collection('blogs');
+    this.firestore.settings({ timestampsInSnapshots: true });
   }
 
   get db() {
     return this.firestore;
   }
 
-  get blogsCollection() {
+  get blogsCollectionRef() {
     return this.firestore.collection('blogs');
   }
 
-  get blogRef() {
-    return this.blogCollectionRef;
-  }
-
-  addBlog(blog: {title: string, content: string}) {
+  addBlog(blog: { title: string, content: string }) {
     let post = {
       title: blog.title,
       content: blog.content,
-      createdDate: new Date().valueOf().toString(),
-      // id: new Date().valueOf(),
+      createdDate: new Date().valueOf(),
     }
     console.log('post', post);
     this.blogCollectionRef.add(post)
-    .then((docRef) => {
-      console.log('doc added', docRef);
-    })
-    .catch((err) => console.log('add doc err', err));
+      .then((docRef) => {
+        console.log('doc added', docRef);
+      })
+      .catch((err) => console.log('add doc err', err));
   }
 
 }

@@ -49,12 +49,12 @@ export const getSelectedBlog = createSelector(
   }
 );
 
-export const getAllBlogIds = createSelector(
+export const getAllBlogCreateTimes = createSelector(
   getBlogEntitiesState,
-  fromBlogs => fromBlogs.allBlogIds
+  fromBlogs => fromBlogs.allBlogCreateTimes
 );
 
-export const getBlogIdAtPosition = createSelector(
+export const getBlogCreateTimeAtPosition = createSelector(
   getBlogEntitiesState,
-  (fromBlogs, props) => fromBlogs.allBlogIds[props.position]
+  (fromBlogs, props) => fromBlogs.allBlogCreateTimes[props.position]
 );

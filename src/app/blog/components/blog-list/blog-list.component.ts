@@ -16,7 +16,7 @@ import * as BlogActions from '../../actions/blog.actions';
 export class BlogListComponent implements OnInit {
   blogs$: Observable<Blog[]>;
   blogCount: number;
-  blogsPerPage: number = 10;
+  blogsPerPage: number = 3;
   currentPage: number;
 
   constructor(
@@ -32,10 +32,10 @@ export class BlogListComponent implements OnInit {
     this.store.dispatch(new BlogActions.LoadAllBlogsInfo());
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.currentPage = parseInt(params.get('pageNumber'));
-      this.store.pipe(select(fromBlog.getBlogIdAtPosition, { position: this.blogsPerPage * (this.currentPage - 1) }))
-      .pipe(filter((id: string) => !!id)).subscribe((id: string) => {
-        this.store.dispatch(new BlogActions.LoadBlogsAtPage({ startAtId: id, limit: this.blogsPerPage }))
-      });
+      this.store.pipe(select(fromBlog.getBlogCreateTimeAtPosition, { position: this.blogsPerPage * (this.currentPage - 1) }))
+        .pipe(filter((id: string) => !!id)).subscribe((id: string) => {
+          this.store.dispatch(new BlogActions.LoadBlogsAtPage({ startAtId: id, limit: this.blogsPerPage }))
+        });
     });
   }
 
@@ -60,14 +60,6 @@ export class BlogListComponent implements OnInit {
   nextPage(): void {
 
     this.router.navigate(['../', String(Number(this.currentPage) + 1)], { relativeTo: this.route });
-  }
-
-  checkPage() {
-    console.log('current page', this.currentPage);
-    console.log('current page type', typeof this.currentPage);
-    console.log('pagenumbers', this.pageNumbers);
-    console.log('is fisrt', this.currentPage === 1);
-    // console.log('is last', this.currentPage === this.pageNumbers.slice(-1))
   }
 
   get disablePrevious(): boolean {

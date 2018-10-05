@@ -47,7 +47,7 @@ export class LoadAllBlogsInfo implements Action {
 export class LoadAllBlogsInfoSuccess implements Action {
   readonly type = BlogActionTypes.LOAD_ALL_BLOGS_INFO_SUCCESS;
 
-  constructor(public payload: { allBlogCount: number, allBlogIds: string[] }) { }
+  constructor(public payload: { allBlogCount: number, allBlogCreateTimes: number[] }) { }
 }
 
 export class LoadAllBlogsInfoFail implements Action {

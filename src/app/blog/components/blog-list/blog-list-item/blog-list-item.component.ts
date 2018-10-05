@@ -1,24 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { Blog } from '../../../model/blog';
 
 @Component({
   selector: 'app-blog-list-item',
   templateUrl: './blog-list-item.component.html',
-  styleUrls: ['./blog-list-item.component.scss']
+  styleUrls: ['./blog-list-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BlogListItemComponent implements OnInit {
+export class BlogListItemComponent {
 
   @Input() blog: Blog;
-
-  constructor() { }
-
-  ngOnInit() {
-    // console.log('blog list item', this.blog);
-  }
 
   tagList(tags: string[]): string {
     return '';
   }
-
 }
