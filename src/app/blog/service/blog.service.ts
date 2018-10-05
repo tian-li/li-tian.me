@@ -1,29 +1,43 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { from } from 'rxjs/observable/from';
+import { map } from 'rxjs/operators/map';
+import * as _ from 'lodash';
 
 import { Blog } from '../model/blog';
-import * as fromBlog from '../reducer/blog.reducer';
-import * as BlogActions from '../actions/blog.actions';
-import { Observable } from 'rxjs';
+import { FirebaseService } from '../../shared/firebase.service';
 
 @Injectable()
 export class BlogService {
-  blogs: Blog[];
-  serverUrl: string = 'http://localhost:3000';
+  blogsCollection;
+  orderedBlogsCollection;
 
-  constructor(private http: HttpClient, private store: Store<fromBlog.State>) { }
-
-  loadAllBlogs(): Observable<any> {
-    return this.http.get(`${this.serverUrl}/blogs`);
+  constructor(private firebaseService: FirebaseService) {
+    this.blogsCollection = firebaseService.blogsCollectionRef;
+    this.orderedBlogsCollection = firebaseService.blogsCollectionRef.orderBy('createdDate', 'desc');
   }
 
-  loadOneBlog(blogId: string): Observable<any> {
-    return this.http.get(`${this.serverUrl}/blogs/${blogId}`);
+  loadAllBlogsInfo(): Observable<any> {
+    return from(this.orderedBlogsCollection.get()).pipe(
+      map((querySnapshot: any) => {
+        return {
+          allBlogCount: querySnapshot.size,
+          allBlogCreateTimes: _.map(querySnapshot.docs, (doc: any) => doc.data().createdDate),
+        };
+      }));
   }
 
-  loadPage(page: string): Observable<any> {
-    const params = new HttpParams().set('_page', page).set('_limit', '20');
-    return this.http.get(`${this.serverUrl}/blogs`, { params });
+  loadOneBlog(blogId: string): Observable<Blog> {
+    return from(this.blogsCollection.doc(blogId).get())
+      .pipe(map((documentSnapshot: any) => new Blog({ id: documentSnapshot.id, ...documentSnapshot.data() })));
+  }
+
+  loadAtPage(startAtId: string, numberPerPage: number): Observable<Blog[]> {
+    return this.createObservable(this.orderedBlogsCollection.startAt(startAtId).limit(numberPerPage).get());
+  }
+
+  createObservable(promise: any): Observable<Blog[]> {
+    return from(promise).pipe(
+      map((querySnapshot: any) => _.map(querySnapshot.docs, doc => new Blog({ id: doc.id, ...doc.data() }))));
   }
 }

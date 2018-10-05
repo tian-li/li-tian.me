@@ -12,15 +12,18 @@ import { BlogRoutingModule } from './blog-routing.module';
 import { BlogListComponent } from './components/blog-list/blog-list.component';
 import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
 import { MarkdownPipe } from './components/blog-detail/markdown.pipe';
+import { FormsModule } from '@angular/forms';
 
 import { BlogService } from './service/blog.service';
 import { reducers } from './reducer';
 import { BlogEffects } from './effects/blog.effects';
 import { BlogListItemComponent } from './components/blog-list/blog-list-item/blog-list-item.component';
+import { FirebaseService } from '../shared/firebase.service';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     FlexLayoutModule,
     BlogMaterialModule,
     BlogRoutingModule,
@@ -34,7 +37,7 @@ import { BlogListItemComponent } from './components/blog-list/blog-list-item/blo
     BlogListItemComponent,
     MarkdownPipe,
   ],
-  providers: [BlogService],
+  providers: [BlogService, FirebaseService],
 })
 export class BlogModule {
 

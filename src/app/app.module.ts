@@ -15,6 +15,7 @@ import { reducers } from './blog/reducer';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { AboutComponent } from './about/about.component';
 
+import { FirebaseService } from './shared/firebase.service';
 // const reducerss = {
 //   blogReducer
 // }
@@ -32,7 +33,7 @@ import { AboutComponent } from './about/about.component';
     AppRoutingModule,
   ],
   declarations: [AppComponent, SideNavComponent, AboutComponent],
-  providers: [],
+  // providers: [FirebaseService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

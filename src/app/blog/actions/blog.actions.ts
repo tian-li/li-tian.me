@@ -7,18 +7,17 @@ export enum BlogActionTypes {
   LOAD_ALL_BLOG_COUNT_SUCCESS = '[Blog] Load All Blog Count Success',
   LOAD_ALL_BLOG_COUNT_FAIL = '[Blog] Load All Blog Count Fail',
 
-
-  LOAD_ALL_BLOGS = '[Blog] Load All Blogs',
-  LOAD_ALL_BLOGS_SUCCESS = '[Blog] Load All Blogs Success',
-  LOAD_ALL_BLOGS_FAIL = '[Blog] Load All Blogs Fail',
+  LOAD_ALL_BLOGS_INFO = '[Blog] Load All Blogs Info',
+  LOAD_ALL_BLOGS_INFO_SUCCESS = '[Blog] Load All Blogs Info Success',
+  LOAD_ALL_BLOGS_INFO_FAIL = '[Blog] Load All Blogs Info Fail',
 
   LOAD_MULTIPLE_BLOGS = '[Blog] Load Multiple Blogs',
   LOAD_MULTIPLE_BLOGS_SUCCESS = '[Blog] Load Multiple Blogs Success',
   LOAD_MULTIPLE_BLOGS_FAIL = '[Blog] Load Multiple Blogs Fail',
 
-  LOAD_BLOGS_FROM_PAGE = '[Blog] Load Blogs From Page',
-  LOAD_BLOGS_FROM_PAGE_SUCCESS = '[Blog] Load Blogs From Page Success',
-  LOAD_BLOGS_FROM_PAGE_FAIL = '[Blog] Load Blogs From Page Fail',
+  LOAD_BLOGS_AT_PAGE = '[Blog] Load Blogs At Page',
+  LOAD_BLOGS_AT_PAGE_SUCCESS = '[Blog] Load Blogs At Page Success',
+  LOAD_BLOGS_AT_PAGE_FAIL = '[Blog] Load Blogs At Page Fail',
 
   LOAD_ONE_BLOG = '[Blog] Load One Blog',
   LOAD_ONE_BLOG_SUCCESS = '[Blog] Load One Blog Success',
@@ -41,18 +40,18 @@ export class LoadAllBlogCountFail implements Action {
   constructor(public payload: string) { }
 }
 
-export class LoadAllBlogs implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOGS;
+export class LoadAllBlogsInfo implements Action {
+  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_INFO;
 }
 
-export class LoadAllBlogsSuccess implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_SUCCESS;
+export class LoadAllBlogsInfoSuccess implements Action {
+  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_INFO_SUCCESS;
 
-  constructor(public payload: Blog[]) { }
+  constructor(public payload: { allBlogCount: number, allBlogCreateTimes: number[] }) { }
 }
 
-export class LoadAllBlogsFail implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_FAIL;
+export class LoadAllBlogsInfoFail implements Action {
+  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_INFO_FAIL;
 
   constructor(public payload: string) { }
 }
@@ -73,20 +72,20 @@ export class LoadMultipleBlogsFail implements Action {
   constructor(public payload: string) { }
 }
 
-export class LoadBlogsFromPage implements Action {
-  readonly type = BlogActionTypes.LOAD_BLOGS_FROM_PAGE;
+export class LoadBlogsAtPage implements Action {
+  readonly type = BlogActionTypes.LOAD_BLOGS_AT_PAGE;
 
-  constructor(public payload: { pageNumber: string, limit: string }) { }
+  constructor(public payload: { startAtId: string, limit: number }) { }
 }
 
-export class LoadBlogsFromPageSuccess implements Action {
-  readonly type = BlogActionTypes.LOAD_BLOGS_FROM_PAGE_SUCCESS;
+export class LoadBlogsAtPageSuccess implements Action {
+  readonly type = BlogActionTypes.LOAD_BLOGS_AT_PAGE_SUCCESS;
 
   constructor(public payload: Blog[]) { }
 }
 
-export class LoadBlogsFromPageFail implements Action {
-  readonly type = BlogActionTypes.LOAD_BLOGS_FROM_PAGE_FAIL;
+export class LoadBlogsAtPageFail implements Action {
+  readonly type = BlogActionTypes.LOAD_BLOGS_AT_PAGE_FAIL;
 
   constructor(public payload: string) { }
 }
@@ -113,15 +112,15 @@ export type BlogActionsUnion =
   |LoadAllBlogCount
   | LoadAllBlogCountSuccess
   | LoadAllBlogCountFail
-  | LoadAllBlogs
-  | LoadAllBlogsSuccess
-  | LoadAllBlogsFail
+  | LoadAllBlogsInfo
+  | LoadAllBlogsInfoSuccess
+  | LoadAllBlogsInfoFail
   | LoadMultipleBlogsSuccess
   | LoadMultipleBlogsFail
   | LoadMultipleBlogs
-  | LoadBlogsFromPage
-  | LoadBlogsFromPageSuccess
-  | LoadBlogsFromPageFail
+  | LoadBlogsAtPage
+  | LoadBlogsAtPageSuccess
+  | LoadBlogsAtPageFail
   | LoadOneBlog
   | LoadOneBlogSuccess
   | LoadOneBlogFail;

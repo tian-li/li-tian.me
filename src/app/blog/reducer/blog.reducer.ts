@@ -5,6 +5,7 @@ import { BlogActionTypes, BlogActionsUnion } from '../actions/blog.actions';
 
 export interface State extends EntityState<Blog> {
   allBlogCount: number;
+  allBlogCreateTimes: number[];
   errorMessage: string;
   selectedBlogId: string;
 }
@@ -16,6 +17,7 @@ export const adapter: EntityAdapter<Blog> = createEntityAdapter<Blog>({
 
 export const initialState: State = adapter.getInitialState({
   allBlogCount: 0,
+  allBlogCreateTimes: [],
   errorMessage: undefined,
   selectedBlogId: undefined,
 });
@@ -29,17 +31,21 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
         errorMessage: undefined,
       };
     }
-    case BlogActionTypes.LOAD_ALL_BLOGS_FAIL: {
+    case BlogActionTypes.LOAD_ALL_BLOG_COUNT_FAIL: {
       return {
         ...state,
         errorMessage: action.payload,
       };
     }
-    case BlogActionTypes.LOAD_ALL_BLOGS_SUCCESS: {
-      console.log('load all success action', action);
-      return adapter.addMany(action.payload, { ...state, errorMessage: undefined });
+    case BlogActionTypes.LOAD_ALL_BLOGS_INFO_SUCCESS: {
+      return {
+        ...state,
+        allBlogCount: action.payload.allBlogCount,
+        allBlogCreateTimes: action.payload.allBlogCreateTimes,
+        errorMessage: undefined,
+      };
     }
-    case BlogActionTypes.LOAD_ALL_BLOGS_FAIL: {
+    case BlogActionTypes.LOAD_ALL_BLOGS_INFO_FAIL: {
       return {
         ...state,
         errorMessage: action.payload,
@@ -54,11 +60,13 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
         errorMessage: action.payload,
       };
     }
-    case BlogActionTypes.LOAD_BLOGS_FROM_PAGE_SUCCESS: {
-      
-      return adapter.addMany(action.payload, { ...adapter.removeAll(state), errorMessage: undefined });
+    case BlogActionTypes.LOAD_BLOGS_AT_PAGE_SUCCESS: {
+      return adapter.addMany(action.payload, {
+        ...adapter.removeAll(state),
+        errorMessage: undefined,
+      });
     }
-    case BlogActionTypes.LOAD_BLOGS_FROM_PAGE_FAIL: {
+    case BlogActionTypes.LOAD_BLOGS_AT_PAGE_FAIL: {
       return {
         ...state,
         errorMessage: action.payload,
@@ -88,3 +96,4 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
 
 export const getSelectedBlogId = (state: State) => state.selectedBlogId;
 export const getAllBlogCount = (state: State) => state.allBlogCount;
+export const getAllBlogCreateTimes = (state: State) => state.allBlogCreateTimes;

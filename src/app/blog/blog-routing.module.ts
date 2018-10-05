@@ -22,4 +22,4 @@ const blogRoutes = [
   imports: [RouterModule.forChild(blogRoutes)],
   exports: [RouterModule],
 })
-export class BlogRoutingModule {}
+export class BlogRoutingModule { }
