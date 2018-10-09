@@ -1,5 +1,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,900');
+@import "./article-github-style.scss";
+@import "./highlight.scss";
 
 * {
   margin: 0;
@@ -14,23 +16,13 @@ body {
 
 a {
   text-decoration: none;
-  color:black;
+  color: black;
+
   &:visited {
-    color:black;
+    color: black;
   }
 }
 
 .unselectable {
   user-select: none;
-}
-
-.blog-detail-content {
-  div {
-    p {
-      line-height: 1.8rem;
-      margin-bottom: 2rem;
-      font-size: 20px;
-      color: rgba(38,41,58,.8);
-    }
-  }
 }

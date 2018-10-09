@@ -10,7 +10,7 @@ export interface BlogState {
 }
 
 export interface State {
-  blogs: BlogState,
+  blogs: BlogState;
 }
 
 export const reducers: ActionReducerMap<BlogState> = {

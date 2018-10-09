@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+.hljs-section,.hljs>::-moz-selection {
+  background-color: #d6edea
+}
+
+.hljs-section,.hljs>::selection {
+  background-color: #d6edea
+}
+
+.hljs-comment {
+  color: #b0bec5;
+  font-style: italic
+}
+
+.hljs-meta,.hljs-regexp,.hljs-selector-tag,.hljs-tag {
+  color: #9c27b0
+}
+
+.hljs-string,.hljs-subst {
+  color: #0d904f
+}
+
+.hljs-number,.hljs-template-variable,.hljs-variable {
+  color: #80cbc4
+}
+
+.hljs-attribute,.hljs-keyword,.hljs-name,.hljs-type {
+  color: #3b78e7
+}
+
+.hljs-built_in,.hljs-builtin-name,.hljs-bullet,.hljs-function>.hljs-title,.hljs-link,.hljs-symbol,.hljs-title {
+  color: #6182b8
+}
+
+.hljs-params {
+  color: #d81b60
+}
+
+.hljs-addition {
+  color: #3b78e7;
+  display: inline-block;
+  width: 100%
+}
+
+.hljs-deletion {
+  color: #e53935;
+  display: inline-block;
+  width: 100%
+}
+
+.hljs-selector-class,.hljs-selector-id {
+  color: #8796b0
+}
+
+.hljs-emphasis {
+  font-style: italic
+}
+
+.hljs-strong {
+  font-weight: 700
+}
+
+.hljs-link {
+  text-decoration: underline
+}

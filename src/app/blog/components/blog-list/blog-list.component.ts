@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { filter } from 'rxjs/operators/filter';
 
 import { Blog } from '../../model/blog';
@@ -16,7 +16,7 @@ import * as BlogActions from '../../actions/blog.actions';
 export class BlogListComponent implements OnInit {
   blogs$: Observable<Blog[]>;
   blogCount: number;
-  blogsPerPage: number = 3;
+  blogsPerPage = 5;
   currentPage: number;
 
   constructor(
@@ -31,18 +31,18 @@ export class BlogListComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new BlogActions.LoadAllBlogsInfo());
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.currentPage = parseInt(params.get('pageNumber'));
+      this.currentPage = parseInt(params.get('pageNumber'), 10);
       this.store.pipe(select(fromBlog.getBlogCreateTimeAtPosition, { position: this.blogsPerPage * (this.currentPage - 1) }))
         .pipe(filter((id: string) => !!id)).subscribe((id: string) => {
-          this.store.dispatch(new BlogActions.LoadBlogsAtPage({ startAtId: id, limit: this.blogsPerPage }))
+          this.store.dispatch(new BlogActions.LoadBlogsAtPage({ startAtId: id, limit: this.blogsPerPage }));
         });
     });
   }
 
   get pageNumbers(): number[] {
     let remaining: number = this.blogCount;
-    let pageNumbersArray: number[] = [];
-    let currentPage: number = 1;
+    const pageNumbersArray: number[] = [];
+    let currentPage = 1;
     while (remaining > this.blogsPerPage) {
       pageNumbersArray.push(currentPage++);
       remaining -= this.blogsPerPage;
@@ -69,5 +69,4 @@ export class BlogListComponent implements OnInit {
   get disableNext(): boolean {
     return this.currentPage === this.pageNumbers[this.pageNumbers.length - 1];
   }
-
 }

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 import { map as _map } from 'lodash';
 
 import { Blog } from '../model/blog';
@@ -58,7 +59,7 @@ export class BlogEffects {
           catchError((err: any) => of(new LoadOneBlogFail(err))),
         );
     }),
-  )
+  );
 
   constructor(
     private actions$: Actions,

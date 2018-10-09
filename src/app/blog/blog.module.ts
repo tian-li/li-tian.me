@@ -39,6 +39,4 @@ import { FirebaseService } from '../shared/firebase.service';
   ],
   providers: [BlogService, FirebaseService],
 })
-export class BlogModule {
-
-}
+export class BlogModule { }

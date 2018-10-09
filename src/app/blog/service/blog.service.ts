@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { from } from 'rxjs/observable/from';
 import { map } from 'rxjs/operators/map';
 import * as _ from 'lodash';

@@ -3,13 +3,13 @@
   margin-bottom: 15%;
 
   .blog-detail-title {
-    color: #26293acc;
     font-size: 40px;
     margin-bottom: 10px;
   }
 
   .blog-detail-meta {
     margin-top: 20px;
+    margin-bottom: 20px;
     font-size: 16px;
     font-weight: 400;
     opacity: 0.6;
@@ -19,12 +19,8 @@
     }
   }
 
-  .blog-detail-content {
-    margin-top: 40px;
-    margin-bottom: 100px;
-  }
-
   .end-of-blog-container {
+    margin-top: 2rem;
     text-align: center;
 
     .end-of-blog {
