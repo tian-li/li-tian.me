@@ -16,7 +16,7 @@ import * as BlogActions from '../../actions/blog.actions';
 export class BlogListComponent implements OnInit {
   blogs$: Observable<Blog[]>;
   blogCount: number;
-  blogsPerPage: number = 3;
+  blogsPerPage: number = 5;
   currentPage: number;
 
   constructor(

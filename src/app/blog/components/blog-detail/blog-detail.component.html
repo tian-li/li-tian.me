@@ -3,7 +3,7 @@
   <div class="blog-detail-meta">
     <span>{{blog?.createdDate}}</span><span *ngFor="let tag of blog.tags" class="blog-tag">#{{tag}}</span>
   </div>
-  <article class="blog-detail-content">
+  <article class="markdown-body">
     <div [innerHTML]="blog.content | markdown"></div>
   </article>
   <div class="end-of-blog-container unselectable">
