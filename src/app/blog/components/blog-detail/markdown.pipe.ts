@@ -8,13 +8,10 @@ export class MarkdownPipe implements PipeTransform {
   constructor(private sanitized: DomSanitizer) { }
   transform(content: string): SafeHtml {
     marked.setOptions({
-      highlight: (content) => {
-        return hljs.highlightAuto(content).value;
+      highlight: (text: string) => {
+        return hljs.highlightAuto(text).value;
       }
     });
-    let hlighted = marked(content, { sanitize: true });
-    console.log('hlighted', hlighted)
-    // return hlighted;
-    return this.sanitized.bypassSecurityTrustHtml(hlighted);
+    return this.sanitized.bypassSecurityTrustHtml(marked(content, { sanitize: true }));
   }
 }

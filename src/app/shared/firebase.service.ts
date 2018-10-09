@@ -6,13 +6,13 @@ export class FirebaseService {
   firestore;
   blogCollectionRef;
   constructor() {
-    let config = {
-      apiKey: "AIzaSyCZpIltWNZZcyXAARe74rqKQcbHsZ0FCa4",
-      authDomain: "blog-rewrite.firebaseapp.com",
-      databaseURL: "https://blog-rewrite.firebaseio.com",
-      projectId: "blog-rewrite",
-      storageBucket: "blog-rewrite.appspot.com",
-      messagingSenderId: "396106547404"
+    const config = {
+      apiKey: 'AIzaSyCZpIltWNZZcyXAARe74rqKQcbHsZ0FCa4',
+      authDomain: 'blog-rewrite.firebaseapp.com',
+      databaseURL: 'https://blog-rewrite.firebaseio.com',
+      projectId: 'blog-rewrite',
+      storageBucket: 'blog-rewrite.appspot.com',
+      messagingSenderId: '396106547404',
     };
     firebase.initializeApp(config);
     this.firestore = firebase.firestore();
@@ -28,11 +28,11 @@ export class FirebaseService {
   }
 
   addBlog(blog: { title: string, content: string }) {
-    let post = {
+    const post: any = {
       title: blog.title,
       content: blog.content,
       createdDate: new Date().valueOf(),
-    }
+    };
     console.log('post', post);
     this.blogCollectionRef.add(post)
       .then((docRef) => {
@@ -40,5 +40,4 @@ export class FirebaseService {
       })
       .catch((err) => console.log('add doc err', err));
   }
-
 }

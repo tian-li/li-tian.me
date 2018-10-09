@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { switchMap } from 'rxjs/operators';
-import * as marked from 'marked';
-
-import * as hljs from 'highlight.js';
 
 import * as fromBlog from '../../reducer';
 import { Blog } from '../../model/blog';
@@ -31,10 +28,4 @@ export class BlogDetailComponent implements OnInit {
         return this.store.pipe(select(fromBlog.getSelectedBlog));
       }));
   }
-
-  ngAfterViewInit() {
-    console.log('hljs', hljs)
-    hljs.initHighlightingOnLoad();
-  }
-
 }
