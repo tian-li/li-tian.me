@@ -1,19 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { BlogMaterialModule } from './blog-material.module';
-
 import { BlogComponent } from './blog.component';
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogListComponent } from './components/blog-list/blog-list.component';
 import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
-import { MarkdownPipe } from './components/blog-detail/markdown.pipe';
-import { FormsModule } from '@angular/forms';
-
+import { MarkdownPipe } from '../shared/markdown.pipe';
 import { BlogService } from './service/blog.service';
 import { reducers } from './reducer';
 import { BlogEffects } from './effects/blog.effects';
@@ -39,4 +36,4 @@ import { FirebaseService } from '../shared/firebase.service';
   ],
   providers: [BlogService, FirebaseService],
 })
-export class BlogModule { }
+export class BlogModule {}
