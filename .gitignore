@@ -41,3 +41,7 @@ testem.log
 .DS_Store
 Thumbs.db
 package-lock.json
+.firebase/*.cache
+src/firebase-config.ts
+
+\.firebaserc
