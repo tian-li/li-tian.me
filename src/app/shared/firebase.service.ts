@@ -1,20 +1,14 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 
+import { firebaseConfig } from '../../firebase-config';
+
 @Injectable()
 export class FirebaseService {
   firestore;
   blogCollectionRef;
   constructor() {
-    const config = {
-      apiKey: 'AIzaSyCZpIltWNZZcyXAARe74rqKQcbHsZ0FCa4',
-      authDomain: 'blog-rewrite.firebaseapp.com',
-      databaseURL: 'https://blog-rewrite.firebaseio.com',
-      projectId: 'blog-rewrite',
-      storageBucket: 'blog-rewrite.appspot.com',
-      messagingSenderId: '396106547404',
-    };
-    firebase.initializeApp(config);
+    firebase.initializeApp(firebaseConfig);
     this.firestore = firebase.firestore();
     this.firestore.settings({ timestampsInSnapshots: true });
   }
@@ -25,19 +19,5 @@ export class FirebaseService {
 
   get blogsCollectionRef() {
     return this.firestore.collection('blogs');
-  }
-
-  addBlog(blog: { title: string, content: string }) {
-    const post: any = {
-      title: blog.title,
-      content: blog.content,
-      createdDate: new Date().valueOf(),
-    };
-    console.log('post', post);
-    this.blogCollectionRef.add(post)
-      .then((docRef) => {
-        console.log('doc added', docRef);
-      })
-      .catch((err) => console.log('add doc err', err));
   }
 }
