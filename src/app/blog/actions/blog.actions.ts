@@ -11,10 +11,6 @@ export enum BlogActionTypes {
   LOAD_ALL_BLOGS_INFO_SUCCESS = '[Blog] Load All Blogs Info Success',
   LOAD_ALL_BLOGS_INFO_FAIL = '[Blog] Load All Blogs Info Fail',
 
-  LOAD_MULTIPLE_BLOGS = '[Blog] Load Multiple Blogs',
-  LOAD_MULTIPLE_BLOGS_SUCCESS = '[Blog] Load Multiple Blogs Success',
-  LOAD_MULTIPLE_BLOGS_FAIL = '[Blog] Load Multiple Blogs Fail',
-
   LOAD_BLOGS_AT_PAGE = '[Blog] Load Blogs At Page',
   LOAD_BLOGS_AT_PAGE_SUCCESS = '[Blog] Load Blogs At Page Success',
   LOAD_BLOGS_AT_PAGE_FAIL = '[Blog] Load Blogs At Page Fail',
@@ -52,22 +48,6 @@ export class LoadAllBlogsInfoSuccess implements Action {
 
 export class LoadAllBlogsInfoFail implements Action {
   readonly type = BlogActionTypes.LOAD_ALL_BLOGS_INFO_FAIL;
-
-  constructor(public payload: string) { }
-}
-
-export class LoadMultipleBlogs implements Action {
-  readonly type = BlogActionTypes.LOAD_MULTIPLE_BLOGS;
-}
-
-export class LoadMultipleBlogsSuccess implements Action {
-  readonly type = BlogActionTypes.LOAD_MULTIPLE_BLOGS_SUCCESS;
-
-  constructor(public payload: Blog[]) { }
-}
-
-export class LoadMultipleBlogsFail implements Action {
-  readonly type = BlogActionTypes.LOAD_MULTIPLE_BLOGS_FAIL;
 
   constructor(public payload: string) { }
 }
@@ -115,9 +95,6 @@ export type BlogActionsUnion =
   | LoadAllBlogsInfo
   | LoadAllBlogsInfoSuccess
   | LoadAllBlogsInfoFail
-  | LoadMultipleBlogsSuccess
-  | LoadMultipleBlogsFail
-  | LoadMultipleBlogs
   | LoadBlogsAtPage
   | LoadBlogsAtPageSuccess
   | LoadBlogsAtPageFail

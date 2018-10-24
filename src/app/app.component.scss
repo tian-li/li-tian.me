@@ -1,11 +1,7 @@
-.side-nav {
-  height: 100vh;
-  width: 400px;
-  position: fixed;
+.mat-sidenav {
+  width: 300px;
 }
 
-.main-content {
-  padding-top: 80px;
-  margin-left: 400px;
-  padding-left: 100px;
+.mat-sidenav-content {
+  margin-top: 80px;
 }

@@ -32,6 +32,9 @@ export class BlogListComponent implements OnInit {
     this.store.dispatch(new BlogActions.LoadAllBlogsInfo());
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.currentPage = parseInt(params.get('pageNumber'), 10);
+      if (isNaN(this.currentPage) || this.currentPage > this.blogCount/this.blogsPerPage || this.currentPage <= 0) {
+        this.router.navigate(['./page/1'], {relativeTo: this.route});
+      }
       this.store.pipe(select(fromBlog.getBlogCreateTimeAtPosition, { position: this.blogsPerPage * (this.currentPage - 1) }))
         .pipe(filter((id: string) => !!id)).subscribe((id: string) => {
           this.store.dispatch(new BlogActions.LoadBlogsAtPage({ startAtId: id, limit: this.blogsPerPage }));

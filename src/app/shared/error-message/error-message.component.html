@@ -1,0 +1,10 @@
+<div *ngIf="errorMessage" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+    <div fxFlex>
+      <h1>{{errorMessage}}</h1>
+    </div>
+    <div fxFlex>
+      <button mat-icon-button (click)="backToHome()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+  </div>

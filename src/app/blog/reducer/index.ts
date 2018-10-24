@@ -58,3 +58,8 @@ export const getBlogCreateTimeAtPosition = createSelector(
   getBlogEntitiesState,
   (fromBlogs, props) => fromBlogs.allBlogCreateTimes[props.position]
 );
+
+export const getErrorMessage = createSelector(
+  getBlogEntitiesState,
+  fromBlogs => fromBlogs.errorMessage
+);

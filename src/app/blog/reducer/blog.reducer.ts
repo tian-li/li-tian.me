@@ -31,12 +31,6 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
         errorMessage: undefined,
       };
     }
-    case BlogActionTypes.LOAD_ALL_BLOG_COUNT_FAIL: {
-      return {
-        ...state,
-        errorMessage: action.payload,
-      };
-    }
     case BlogActionTypes.LOAD_ALL_BLOGS_INFO_SUCCESS: {
       return {
         ...state,
@@ -45,32 +39,11 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
         errorMessage: undefined,
       };
     }
-    case BlogActionTypes.LOAD_ALL_BLOGS_INFO_FAIL: {
-      return {
-        ...state,
-        errorMessage: action.payload,
-      };
-    }
-    case BlogActionTypes.LOAD_MULTIPLE_BLOGS_SUCCESS: {
-      return adapter.addMany(action.payload, { ...state, errorMessage: undefined });
-    }
-    case BlogActionTypes.LOAD_MULTIPLE_BLOGS_FAIL: {
-      return {
-        ...state,
-        errorMessage: action.payload,
-      };
-    }
     case BlogActionTypes.LOAD_BLOGS_AT_PAGE_SUCCESS: {
       return adapter.addMany(action.payload, {
         ...adapter.removeAll(state),
         errorMessage: undefined,
       });
-    }
-    case BlogActionTypes.LOAD_BLOGS_AT_PAGE_FAIL: {
-      return {
-        ...state,
-        errorMessage: action.payload,
-      };
     }
     case BlogActionTypes.LOAD_ONE_BLOG: {
       return { ...state, selectedBlogId: action.payload };
@@ -82,6 +55,9 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
         errorMessage: undefined,
       });
     }
+    case BlogActionTypes.LOAD_BLOGS_AT_PAGE_FAIL:
+    case BlogActionTypes.LOAD_ALL_BLOGS_INFO_FAIL:
+    case BlogActionTypes.LOAD_ALL_BLOG_COUNT_FAIL:
     case BlogActionTypes.LOAD_ONE_BLOG_FAIL: {
       return {
         ...state,

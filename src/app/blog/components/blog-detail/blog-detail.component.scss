@@ -1,6 +1,6 @@
 .blog-detail-container {
-  padding-right: 20%;
-  margin-bottom: 15%;
+  width: 70%;
+  margin: auto;
 
   .blog-detail-title {
     font-size: 40px;
@@ -28,7 +28,7 @@
       color: #d2d1d1;
 
       &::before {
-        content: "";
+        content: '';
         border-bottom: 1px dashed;
         position: absolute;
         right: 45px;
@@ -37,7 +37,7 @@
       }
 
       &::after {
-        content: "";
+        content: '';
         border-bottom: 1px dashed;
         position: absolute;
         right: -125px;

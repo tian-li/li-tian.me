@@ -1,8 +1,8 @@
-<div>
-  <section class="side-nav">
+<mat-sidenav-container fullscreen>
+  <mat-sidenav mode="side" opened>
     <app-side-nav></app-side-nav>
-  </section>
-  <section class="main-content">
+  </mat-sidenav>
+  <mat-sidenav-content>
     <router-outlet></router-outlet>
-  </section>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

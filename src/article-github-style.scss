@@ -9,6 +9,10 @@
   word-wrap: break-word;
 }
 
+.markdown-body img {
+  max-height: 300px;
+}
+
 .markdown-body .pl-c {
   color: #6a737d;
 }

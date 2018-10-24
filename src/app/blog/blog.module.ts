@@ -5,7 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { BlogMaterialModule } from './blog-material.module';
+import { MaterialModule } from '../shared/material.module';
+import { ErrorMessageComponent } from '../shared/error-message/error-message.component';
 import { BlogComponent } from './blog.component';
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogListComponent } from './components/blog-list/blog-list.component';
@@ -22,7 +23,7 @@ import { FirebaseService } from '../shared/firebase.service';
     CommonModule,
     FormsModule,
     FlexLayoutModule,
-    BlogMaterialModule,
+    MaterialModule,
     BlogRoutingModule,
     StoreModule.forFeature('blogs', reducers),
     EffectsModule.forFeature([BlogEffects]),
@@ -32,6 +33,7 @@ import { FirebaseService } from '../shared/firebase.service';
     BlogListComponent,
     BlogDetailComponent,
     BlogListItemComponent,
+    ErrorMessageComponent,
     MarkdownPipe,
   ],
   providers: [BlogService, FirebaseService],
