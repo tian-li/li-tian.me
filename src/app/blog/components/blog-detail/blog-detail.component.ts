@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { select, Store } from '@ngrx/store';
+import { Title } from '@angular/platform-browser';
 
 import * as fromBlog from '../../reducer';
 import { Blog } from '../../model/blog';
@@ -18,7 +19,8 @@ export class BlogDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private store: Store<fromBlog.State>
+    private store: Store<fromBlog.State>,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -30,10 +32,11 @@ export class BlogDetailComponent implements OnInit {
       this.store.pipe(select(fromBlog.getSelectedBlog)),
       this.store.pipe(select(fromBlog.getErrorMessage))
     ).subscribe(([blog, errorMessage]: [Blog, string]) => {
+      if (!errorMessage) {
+        this.titleService.setTitle(`${blog.title} | Tian`);
+      }
       this.blog = blog;
       this.errorMessage = errorMessage;
     });
   }
-
-  
 }
