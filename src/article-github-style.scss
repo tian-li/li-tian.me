@@ -144,7 +144,7 @@
 }
 
 .markdown-body a {
-  background-color: transparent;
+  background-color: transparent !important;
 }
 
 .markdown-body a:active,
@@ -207,8 +207,8 @@
 }
 
 .markdown-body a {
-  color: #0366d6;
-  text-decoration: none;
+  color: #0366d6 !important;
+  text-decoration: none !important;
 }
 
 .markdown-body a:hover {
