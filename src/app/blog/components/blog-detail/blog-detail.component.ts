@@ -32,7 +32,7 @@ export class BlogDetailComponent implements OnInit {
       this.store.pipe(select(fromBlog.getSelectedBlog)),
       this.store.pipe(select(fromBlog.getErrorMessage))
     ).subscribe(([blog, errorMessage]: [Blog, string]) => {
-      if (!errorMessage) {
+      if (!errorMessage && !!blog) {
         this.titleService.setTitle(`${blog.title} | Tian`);
       }
       this.blog = blog;
