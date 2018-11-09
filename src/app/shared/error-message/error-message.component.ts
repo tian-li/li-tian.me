@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,13 +6,10 @@ import { Router } from '@angular/router';
   templateUrl: './error-message.component.html',
   styleUrls: ['./error-message.component.scss']
 })
-export class ErrorMessageComponent implements OnInit {
+export class ErrorMessageComponent {
   @Input() errorMessage: string;
 
   constructor(private router: Router) { }
-
-  ngOnInit() {
-  }
 
   backToHome(): void {
     this.router.navigate(['blog/page/1']);

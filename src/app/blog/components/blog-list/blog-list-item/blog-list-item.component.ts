@@ -9,10 +9,5 @@ import { Blog } from '../../../model/blog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogListItemComponent {
-
   @Input() blog: Blog;
-
-  tagList(tags: string[]): string {
-    return '';
-  }
 }

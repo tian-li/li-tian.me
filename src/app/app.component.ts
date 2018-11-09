@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -10,7 +10,7 @@ import { ScreenConfig } from './shared/models/screen-config';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   @ViewChild(MatSidenav)
   sidenav: MatSidenav;
 
@@ -24,9 +24,7 @@ export class AppComponent {
 
   constructor(public media: ObservableMedia) {
     this.watcher = media.subscribe((change: MediaChange) => {
-      this.activeMediaQuery = change
-        ? `'${change.mqAlias}' = (${change.mediaQuery})`
-        : '';
+      this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
       if (change.mqAlias === 'sm' || change.mqAlias === 'xs') {
         this.screenConfig = this.mobileConfig;
       } else {
@@ -59,5 +57,9 @@ export class AppComponent {
       sidenavOpened: true,
       sidenavMode: 'side',
     };
+  }
+
+  ngOnDestroy(): void {
+    this.watcher.unsubscribe();
   }
 }

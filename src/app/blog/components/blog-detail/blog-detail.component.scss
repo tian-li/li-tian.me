@@ -46,4 +46,14 @@
       }
     }
   }
+
+  div.draft-blog {
+    & > div {
+      text-align: center;
+
+      .back-to-list {
+        margin-top: 20px;
+      }
+    }
+  }
 }
