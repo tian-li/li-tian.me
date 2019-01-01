@@ -18,6 +18,7 @@ export class BlogService {
     this.blogsCollection = firebaseService.blogsCollectionRef;
 
     this.orderedNonDraftBlogsCollection = firebaseService.blogsCollectionRef
+      .where('deleted', '==', false)
       .where('isDraft', '==', false)
       .orderBy('createdDate', 'desc');
   }
