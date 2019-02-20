@@ -45,3 +45,4 @@ package-lock.json
 src/firebase-config.ts
 
 \.firebaserc
+src/github-config.ts

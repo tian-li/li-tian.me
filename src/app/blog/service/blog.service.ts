@@ -64,6 +64,10 @@ export class BlogService {
     );
   }
 
+  loadByTags(tagNames: string[]) {
+    
+  }
+
   createObservable(promise: any): Observable<Blog[]> {
     return from(promise).pipe(
       map((querySnapshot: any) =>
