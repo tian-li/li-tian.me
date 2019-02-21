@@ -12,12 +12,11 @@ import { BlogRoutingModule } from './blog-routing.module';
 import { BlogListComponent } from './components/blog-list/blog-list.component';
 import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
 import { MarkdownPipe } from '../shared/markdown.pipe';
-import { BlogService } from './service/blog.service';
 import { reducers } from './reducer';
 import { BlogEffects } from './effects/blog.effects';
 import { BlogListItemComponent } from './components/blog-list/blog-list-item/blog-list-item.component';
 import { FirebaseService } from '../shared/firebase.service';
-import { BlogGithubService } from './service/blog-github.service';
+import { BlogService } from './service/blog.service';
 
 @NgModule({
   imports: [
@@ -37,6 +36,6 @@ import { BlogGithubService } from './service/blog-github.service';
     ErrorMessageComponent,
     MarkdownPipe,
   ],
-  providers: [BlogService, FirebaseService, BlogGithubService],
+  providers: [BlogService, FirebaseService, BlogService],
 })
 export class BlogModule {}

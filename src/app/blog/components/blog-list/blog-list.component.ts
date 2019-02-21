@@ -8,8 +8,9 @@ import { takeUntil } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 
 import { Blog } from '../../model/blog';
-import * as fromBlog from '../../reducer';
+import * as fromBlog from '../../reducer/index';
 import * as BlogActions from '../../actions/blog.actions';
+import { Repo } from '../../model/repo';
 
 @Component({
   selector: 'app-blog-list',
@@ -18,10 +19,10 @@ import * as BlogActions from '../../actions/blog.actions';
 })
 export class BlogListComponent implements OnInit, OnDestroy {
   destroy$: Subject<void> = new Subject<void>();
-  blogs$: Observable<Blog[]>;
-  blogCount: number;
-  blogsPerPage = 5;
   currentPage: number;
+  issues$: Observable<Blog[]>;
+  openBlogsCount: number;
+  perPage = 10;
 
   constructor(
     private router: Router,
@@ -30,41 +31,31 @@ export class BlogListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new BlogActions.LoadAllBlogsInfo());
-    this.blogs$ = this.store.pipe(select(fromBlog.getAllBlogs));
+    this.store.dispatch(new BlogActions.LoadRepo());
+    this.issues$ = this.store.pipe(select(fromBlog.getAllBlogs));
 
-    combineLatest(this.store.pipe(select(fromBlog.getAllBlogCount)), this.route.paramMap)
+    combineLatest(this.store.pipe(select(fromBlog.getRepo)), this.route.paramMap)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([blogCount, params]: [number, ParamMap]) => {
+      .subscribe(([repo, params]: [Repo, ParamMap]) => {
         this.currentPage = parseInt(params.get('pageNumber'), 10);
-        this.blogCount = blogCount;
-        const overPage: boolean = this.currentPage > this.blogCount / this.blogsPerPage + 1;
+        this.openBlogsCount = repo.openIssuesCount;
+        const overPage: boolean = this.currentPage > this.openBlogsCount / this.perPage + 1;
         if (isNaN(this.currentPage) || overPage || this.currentPage <= 0) {
           this.router.navigate(['./page/1'], { relativeTo: this.route });
         }
-        this.store
-          .pipe(
-            select(fromBlog.getBlogCreateTimeAtPosition, {
-              position: this.blogsPerPage * (this.currentPage - 1),
-            }),
-            filter((id: string) => !!id),
-            takeUntil(this.destroy$)
-          )
-          .subscribe((id: string) => {
-            this.store.dispatch(
-              new BlogActions.LoadBlogsAtPage({ startAtId: id, limit: this.blogsPerPage })
-            );
-          });
+        this.store.dispatch(
+          new BlogActions.LoadBlogsAtPage({ page: String(this.currentPage), perPage: String(this.perPage) })
+        );
       });
   }
 
   get pageNumbers(): number[] {
-    let remaining: number = this.blogCount;
+    let remaining: number = this.openBlogsCount;
     const pageNumbersArray: number[] = [];
     let currentPage = 1;
-    while (remaining > this.blogsPerPage) {
+    while (remaining > this.perPage) {
       pageNumbersArray.push(currentPage++);
-      remaining -= this.blogsPerPage;
+      remaining -= this.perPage;
     }
     if (remaining > 0) {
       pageNumbersArray.push(currentPage++);

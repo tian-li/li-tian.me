@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { BlogGithubService } from './service/blog-github.service';
 
 @Component({
   selector: 'app-blog',
@@ -8,8 +7,7 @@ import { BlogGithubService } from './service/blog-github.service';
   styleUrls: ['blog.component.scss'],
 })
 export class BlogComponent {
-  public constructor(private titleService: Title, private gh: BlogGithubService) {
+  public constructor(private titleService: Title) {
     this.titleService.setTitle('Blogs | Tian');
-    this.gh.loadAllIssues().subscribe();
   }
 }
