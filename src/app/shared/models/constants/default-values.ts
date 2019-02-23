@@ -1,0 +1,1 @@
+export const blogsPerPage: string = '6';
