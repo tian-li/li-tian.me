@@ -1,11 +1,11 @@
 <div fxLayout="column">
   <h2 class="blog-list-item-title" fxFlex>
-    <a [routerLink]="['../../', blog.id]">{{blog?.title}}</a>
+    <a [routerLink]="['../../', blog.number]">{{blog?.title}}</a>
   </h2>
   <p class="blog-list-item-meta">
-    <span>{{blog?.createdDateDisplay}}</span><span *ngFor="let tag of blog.tags" class="blog-tag">#{{tag}}</span>
+    <span>{{blog?.createdDateDisplay}}</span><span *ngFor="let label of blog.labels" class="blog-tag">#{{label}}</span>
   </p>
-  <p class="blog-list-item-summary">
-    <a [routerLink]="['../../', blog.id]">{{blog?.summary}}</a>
-  </p>
+  <!--<p class="blog-list-item-summary">-->
+    <!--<a [routerLink]="['../../', blog.id]">{{blog}}</a>-->
+  <!--</p>-->
 </div>

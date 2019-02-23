@@ -1,23 +1,23 @@
 <main class="blog-detail-container">
-  <div *ngIf="blog && !blog.isDraft">
+  <div *ngIf="blog">
     <h1 class="blog-detail-title">{{blog?.title}}</h1>
     <div class="blog-detail-meta">
-      <span>{{blog?.createdDateDisplay}}</span><span *ngFor="let tag of blog.tags" class="blog-tag">#{{tag}}</span>
+      <span>{{blog?.createdDateDisplay}}</span><span *ngFor="let label of blog.labels" class="blog-tag">#{{label}}</span>
     </div>
     <article class="markdown-body">
-      <div [innerHTML]="blog.content | markdown"></div>
+      <div [innerHTML]="blog.body | markdown"></div>
     </article>
     <div class="end-of-blog-container unselectable">
       <span class="end-of-blog">End</span>
     </div>
   </div>
-  <div *ngIf="blog?.isDraft" class="draft-blog">
-    <div>
-      <h1>
-        这篇文章回炉重造啦！ 
-      </h1>
-      <button mat-raised-button color="primary" class="back-to-list" routerLink="../">返回列表</button>
-    </div>
-  </div>
+  <!--<div *ngIf="blog?.isDraft" class="draft-blog">-->
+    <!--<div>-->
+      <!--<h1>-->
+        <!--这篇文章回炉重造啦！ -->
+      <!--</h1>-->
+      <!--<button mat-raised-button color="primary" class="back-to-list" routerLink="../">返回列表</button>-->
+    <!--</div>-->
+  <!--</div>-->
   <app-error-message [errorMessage]="errorMessage"></app-error-message>
 </main>

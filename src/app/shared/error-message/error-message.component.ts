@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./error-message.component.scss']
 })
 export class ErrorMessageComponent {
-  @Input() errorMessage: string;
+  @Input() errorMessage: HttpErrorResponse;
 
   constructor(private router: Router) { }
 

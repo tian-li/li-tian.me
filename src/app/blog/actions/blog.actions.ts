@@ -1,15 +1,12 @@
 import { Action } from '@ngrx/store';
 
 import { Blog } from '../model/blog';
+import { Repo } from '../model/repo';
 
 export enum BlogActionTypes {
-  LOAD_ALL_BLOG_COUNT = '[Blog] Load All Blog Count',
-  LOAD_ALL_BLOG_COUNT_SUCCESS = '[Blog] Load All Blog Count Success',
-  LOAD_ALL_BLOG_COUNT_FAIL = '[Blog] Load All Blog Count Fail',
-
-  LOAD_ALL_BLOGS_INFO = '[Blog] Load All Blogs Info',
-  LOAD_ALL_BLOGS_INFO_SUCCESS = '[Blog] Load All Blogs Info Success',
-  LOAD_ALL_BLOGS_INFO_FAIL = '[Blog] Load All Blogs Info Fail',
+  LOAD_REPO = '[Blog] Load Repo',
+  LOAD_REPO_SUCCESS = '[Blog] Load Repo Success',
+  LOAD_REPO_FAIL = '[Blog] Load Repo Fail',
 
   LOAD_BLOGS_AT_PAGE = '[Blog] Load Blogs At Page',
   LOAD_BLOGS_AT_PAGE_SUCCESS = '[Blog] Load Blogs At Page Success',
@@ -20,81 +17,70 @@ export enum BlogActionTypes {
   LOAD_ONE_BLOG_FAIL = '[Blog] Load One Blog Fail',
 }
 
-export class LoadAllBlogCount implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOG_COUNT;
+export class LoadRepo implements Action {
+  readonly type = BlogActionTypes.LOAD_REPO;
 }
 
-export class LoadAllBlogCountSuccess implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOG_COUNT_SUCCESS;
+export class LoadRepoSUccess implements Action {
+  readonly type = BlogActionTypes.LOAD_REPO_SUCCESS;
 
-  constructor(public payload: number) { }
+  constructor(public payload: Repo) {
+  }
 }
 
-export class LoadAllBlogCountFail implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOG_COUNT_FAIL;
+export class LoadRepoFail implements Action {
+  readonly type = BlogActionTypes.LOAD_REPO_FAIL;
 
-  constructor(public payload: string) { }
-}
-
-export class LoadAllBlogsInfo implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_INFO;
-}
-
-export class LoadAllBlogsInfoSuccess implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_INFO_SUCCESS;
-
-  constructor(public payload: { allBlogCount: number, allBlogCreateTimes: number[] }) { }
-}
-
-export class LoadAllBlogsInfoFail implements Action {
-  readonly type = BlogActionTypes.LOAD_ALL_BLOGS_INFO_FAIL;
-
-  constructor(public payload: string) { }
+  constructor(public payload: any) {
+  }
 }
 
 export class LoadBlogsAtPage implements Action {
   readonly type = BlogActionTypes.LOAD_BLOGS_AT_PAGE;
 
-  constructor(public payload: { startAtId: string, limit: number }) { }
+  constructor(public payload: { page: string, perPage: string }) {
+  }
 }
 
 export class LoadBlogsAtPageSuccess implements Action {
   readonly type = BlogActionTypes.LOAD_BLOGS_AT_PAGE_SUCCESS;
 
-  constructor(public payload: Blog[]) { }
+  constructor(public payload: Blog[]) {
+  }
 }
 
 export class LoadBlogsAtPageFail implements Action {
   readonly type = BlogActionTypes.LOAD_BLOGS_AT_PAGE_FAIL;
 
-  constructor(public payload: string) { }
+  constructor(public payload: string) {
+  }
 }
 
 export class LoadOneBlog implements Action {
   readonly type = BlogActionTypes.LOAD_ONE_BLOG;
 
-  constructor(public payload: string) { }
+  constructor(public payload: { blogNumber: number }) {
+  }
 }
 
 export class LoadOneBlogSuccess implements Action {
   readonly type = BlogActionTypes.LOAD_ONE_BLOG_SUCCESS;
 
-  constructor(public payload: Blog) { }
+  constructor(public payload: Blog) {
+  }
 }
 
 export class LoadOneBlogFail implements Action {
   readonly type = BlogActionTypes.LOAD_ONE_BLOG_FAIL;
 
-  constructor(public payload: string) { }
+  constructor(public payload: string) {
+  }
 }
 
 export type BlogActionsUnion =
-  |LoadAllBlogCount
-  | LoadAllBlogCountSuccess
-  | LoadAllBlogCountFail
-  | LoadAllBlogsInfo
-  | LoadAllBlogsInfoSuccess
-  | LoadAllBlogsInfoFail
+  | LoadRepo
+  | LoadRepoSUccess
+  | LoadRepoFail
   | LoadBlogsAtPage
   | LoadBlogsAtPageSuccess
   | LoadBlogsAtPageFail

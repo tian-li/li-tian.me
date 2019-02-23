@@ -1,63 +1,55 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { HttpErrorResponse } from '@angular/common/http';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { BlogActionsUnion, BlogActionTypes } from '../actions/blog.actions';
 
 import { Blog } from '../model/blog';
-import { BlogActionTypes, BlogActionsUnion } from '../actions/blog.actions';
+import { Repo } from '../model/repo';
 
 export interface State extends EntityState<Blog> {
-  allBlogCount: number;
-  allBlogCreateTimes: number[];
-  errorMessage: string;
-  selectedBlogId: string;
+  repo: Repo;
+  selectedBlogId: number;
+  errorMessage: HttpErrorResponse;
 }
 
 export const adapter: EntityAdapter<Blog> = createEntityAdapter<Blog>({
-  selectId: (blog: Blog) => blog.id,
+  selectId: (issue: Blog) => issue.number,
   sortComparer: false,
 });
 
 export const initialState: State = adapter.getInitialState({
-  allBlogCount: 0,
-  allBlogCreateTimes: [],
-  errorMessage: undefined,
+  repo: new Repo({}),
   selectedBlogId: undefined,
+  errorMessage: undefined,
 });
 
 export function reducer(state = initialState, action: BlogActionsUnion): State {
   switch (action.type) {
-    case BlogActionTypes.LOAD_ALL_BLOG_COUNT_SUCCESS: {
+    case BlogActionTypes.LOAD_REPO_SUCCESS: {
       return {
         ...state,
-        allBlogCount: action.payload,
-        errorMessage: undefined,
-      };
-    }
-    case BlogActionTypes.LOAD_ALL_BLOGS_INFO_SUCCESS: {
-      return {
-        ...state,
-        allBlogCount: action.payload.allBlogCount,
-        allBlogCreateTimes: action.payload.allBlogCreateTimes,
+        repo: action.payload,
         errorMessage: undefined,
       };
     }
     case BlogActionTypes.LOAD_BLOGS_AT_PAGE_SUCCESS: {
+      console.log('all blogs', action.payload);
       return adapter.addMany(action.payload, {
         ...adapter.removeAll(state),
         errorMessage: undefined,
       });
     }
     case BlogActionTypes.LOAD_ONE_BLOG: {
-      return { ...state, selectedBlogId: action.payload };
+      return { ...state, selectedBlogId: action.payload.blogNumber };
     }
     case BlogActionTypes.LOAD_ONE_BLOG_SUCCESS: {
       return adapter.addOne(action.payload, {
         ...state,
-        selectedBlogId: action.payload.id,
+        selectedBlogId: action.payload.number,
         errorMessage: undefined,
       });
     }
     case BlogActionTypes.LOAD_BLOGS_AT_PAGE_FAIL:
-    case BlogActionTypes.LOAD_ALL_BLOGS_INFO_FAIL:
-    case BlogActionTypes.LOAD_ALL_BLOG_COUNT_FAIL:
+    case BlogActionTypes.LOAD_REPO_FAIL:
     case BlogActionTypes.LOAD_ONE_BLOG_FAIL: {
       return {
         ...state,
@@ -69,7 +61,3 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
     }
   }
 }
-
-export const getSelectedBlogId = (state: State) => state.selectedBlogId;
-export const getAllBlogCount = (state: State) => state.allBlogCount;
-export const getAllBlogCreateTimes = (state: State) => state.allBlogCreateTimes;

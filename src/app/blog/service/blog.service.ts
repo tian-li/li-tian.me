@@ -1,74 +1,61 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { from } from 'rxjs/observable/from';
-import { of } from 'rxjs/observable/of';
+import { Github } from 'github-api';
+import { map as _map, join } from 'lodash';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators/map';
-import { switchMap } from 'rxjs/operators/switchMap';
-import { map as _map } from 'lodash';
 
+import { githubConfig } from '../../../github-config';
 import { Blog } from '../model/blog';
-import { FirebaseService } from '../../shared/firebase.service';
+import { Repo } from '../model/repo';
+import * as defaultValues from '../../shared/models/constants/default-values';
 
 @Injectable()
 export class BlogService {
-  blogsCollection;
-  orderedNonDraftBlogsCollection;
+  api: string = 'https://api.github.com/repos/tian-li/blog';
+  // api: string = 'https://api.github.com/repos/angular/angular';
 
-  constructor(private firebaseService: FirebaseService) {
-    this.blogsCollection = firebaseService.blogsCollectionRef;
+  githubConfig = {
+    clientId: githubConfig.clientId,
+    clientSecret: githubConfig.clientSecret,
+    time: Date.now()
+  };
 
-    this.orderedNonDraftBlogsCollection = firebaseService.blogsCollectionRef
-      .where('deleted', '==', false)
-      .where('isDraft', '==', false)
-      .orderBy('createdDate', 'desc');
-  }
+  params: HttpParams = new HttpParams()
+    .set('client_id', this.githubConfig.clientId)
+    .set('client_secret', this.githubConfig.clientSecret)
+    .set('per_page', defaultValues.blogsPerPage)
+    .set('creator', githubConfig.userName);
 
-  loadAllBlogsInfo(): Observable<any> {
-    return from(this.orderedNonDraftBlogsCollection.get()).pipe(
-      switchMap((querySnapshot: any) => {
-        if (querySnapshot.empty) {
-          return Observable.throw('Load failed');
-        } else {
-          return of({
-            allBlogCount: querySnapshot.size,
-            allBlogCreateTimes: _map(querySnapshot.docs, (doc: any) => doc.data().createdDate),
-          });
-        }
+  constructor(private http: HttpClient) {}
+
+  loadRepo(): Observable<Repo> {
+    return this.http.get(this.api, { params: this.params }).pipe(
+      map(repo => {
+        return new Repo(repo);
       })
     );
   }
 
-  loadOneBlog(blogId: string): Observable<Blog | never> {
-    return from(this.blogsCollection.doc(blogId).get()).pipe(
-      switchMap((documentSnapshot: any) => {
-        if (documentSnapshot.exists) {
-          return of(
-            new Blog({
-              id: documentSnapshot.id,
-              ...documentSnapshot.data(),
-            })
-          );
-        } else {
-          return Observable.throw('Blog does not exist');
-        }
+  loadBlogsAtPage(page: string, perPage: string): Observable<Blog[]> {
+    this.params.set('page', page);
+    if(perPage) {
+      this.params.set('per_page', perPage);
+    }
+
+    return this.http.get(`${this.api}/issues`, { params: this.params }).pipe(
+      map(issues => {
+        return _map(issues, issue => new Blog(issue));
       })
     );
   }
 
-  loadAtPage(startAtId: string, numberPerPage: number): Observable<Blog[]> {
-    return this.createObservable(
-      this.orderedNonDraftBlogsCollection
-        .startAt(startAtId)
-        .limit(numberPerPage)
-        .get()
-    );
-  }
-
-  createObservable(promise: any): Observable<Blog[]> {
-    return from(promise).pipe(
-      map((querySnapshot: any) =>
-        _map(querySnapshot.docs, (doc) => new Blog({ id: doc.id, ...doc.data() }))
-      )
+  loadOneBlog(issueNumber: number): Observable<Blog> {
+    console.log('');
+    return this.http.get(`${this.api}/issues/${issueNumber}`).pipe(
+      map(issue => {
+        return new Blog(issue);
+      })
     );
   }
 }

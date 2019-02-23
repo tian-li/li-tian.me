@@ -1,6 +1,6 @@
-<div *ngFor="let blog of blogs$ | async;" class="blog-list-item-container"
+<div *ngFor="let issue of issues$ | async; let last=last" class="blog-list-item-container"
   [ngClass]="{'last-item': last}">
-  <app-blog-list-item *ngIf="!blog.isDraft" [blog]="blog"></app-blog-list-item>
+  <app-blog-list-item [blog]="issue"></app-blog-list-item>
 </div>
 <div class="pagination-container unselectable">
   <button class="previous-page" mat-button color="primary" (click)="previousPage()" [disabled]="disablePrevious">Previous</button>
