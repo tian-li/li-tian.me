@@ -1,1 +1,1 @@
-export const blogsPerPage: string = '6';
+export const blogsPerPage: string = '2';

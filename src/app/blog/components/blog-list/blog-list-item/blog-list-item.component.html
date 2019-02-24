@@ -1,6 +1,6 @@
 <div fxLayout="column">
   <h2 class="blog-list-item-title" fxFlex>
-    <a [routerLink]="['../../', blog.number]">{{blog?.title}}</a>
+    <a [routerLink]="['./', blog?.number]">{{blog?.title}}</a>
   </h2>
   <p class="blog-list-item-meta">
     <span>{{blog?.createdDateDisplay}}</span><span *ngFor="let label of blog.labels" class="blog-tag">#{{label}}</span>

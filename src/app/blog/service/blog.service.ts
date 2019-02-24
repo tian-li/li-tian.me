@@ -1,7 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { Params } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Github } from 'github-api';
-import { map as _map, join } from 'lodash';
+import { map as _map, forEach, reduce, get } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators/map';
 
@@ -9,6 +10,7 @@ import { githubConfig } from '../../../github-config';
 import { Blog } from '../model/blog';
 import { Repo } from '../model/repo';
 import * as defaultValues from '../../shared/models/constants/default-values';
+import { avaliableQueryParams } from '../../shared/models/available-query-params';
 
 @Injectable()
 export class BlogService {
@@ -21,13 +23,15 @@ export class BlogService {
     time: Date.now()
   };
 
-  params: HttpParams = new HttpParams()
-    .set('client_id', this.githubConfig.clientId)
-    .set('client_secret', this.githubConfig.clientSecret)
-    .set('per_page', defaultValues.blogsPerPage)
-    .set('creator', githubConfig.userName);
+  params: HttpParams;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.params = new HttpParams()
+      .set('client_id', this.githubConfig.clientId)
+      .set('client_secret', this.githubConfig.clientSecret)
+      .set('per_page', defaultValues.blogsPerPage)
+      .set('creator', githubConfig.userName);
+  }
 
   loadRepo(): Observable<Repo> {
     return this.http.get(this.api, { params: this.params }).pipe(
@@ -38,10 +42,9 @@ export class BlogService {
   }
 
   loadBlogsAtPage(page: string, perPage: string): Observable<Blog[]> {
-    this.params.set('page', page);
-    if(perPage) {
-      this.params.set('per_page', perPage);
-    }
+    this.params = this.params
+      .set('page', page)
+      .set('per_page', perPage ? perPage : defaultValues.blogsPerPage);
 
     return this.http.get(`${this.api}/issues`, { params: this.params }).pipe(
       map(issues => {
@@ -50,12 +53,57 @@ export class BlogService {
     );
   }
 
+  loadBlogsByFilter(payload: {
+    [key: string]: string;
+  }): Observable<HttpResponse<Object>> {
+    console.log('load by filter', payload);
+    forEach(payload, (value: string, key: string) => {
+      this.params = this.params.set(key, value);
+    });
+    return this.http.get(`${this.api}/issues`, {
+      params: this.params,
+      observe: 'response'
+    });
+  }
+
   loadOneBlog(issueNumber: number): Observable<Blog> {
-    console.log('');
     return this.http.get(`${this.api}/issues/${issueNumber}`).pipe(
       map(issue => {
         return new Blog(issue);
       })
+    );
+  }
+
+  buildQuery(queryParams: Params): { [key: string]: string } {
+    return reduce(
+      queryParams,
+      (
+        result: { [key: string]: string },
+        queryValue: string,
+        queryKey: string
+      ) => {
+        const query: { type: string } = get(avaliableQueryParams, queryKey);
+
+        if (query) {
+          switch (query.type) {
+            case 'number': {
+              if (parseInt(queryValue, 10)) {
+                result[queryKey] = String(parseInt(queryValue, 10));
+              }
+              break;
+            }
+            case 'string': {
+              result[queryKey] = queryValue;
+              break;
+            }
+            default: {
+              break;
+            }
+          }
+        }
+        return result;
+      },
+      {}
     );
   }
 }

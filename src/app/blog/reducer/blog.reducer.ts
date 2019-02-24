@@ -1,12 +1,15 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { BlogActionsUnion, BlogActionTypes } from '../actions/blog.actions';
+import { map, split, last } from 'lodash';
 
 import { Blog } from '../model/blog';
 import { Repo } from '../model/repo';
+import { extractQueryList } from '../../shared/functions/extract-query-list';
 
 export interface State extends EntityState<Blog> {
   repo: Repo;
+  totalPage: number;
   selectedBlogId: number;
   errorMessage: HttpErrorResponse;
 }
@@ -18,6 +21,7 @@ export const adapter: EntityAdapter<Blog> = createEntityAdapter<Blog>({
 
 export const initialState: State = adapter.getInitialState({
   repo: new Repo({}),
+  totalPage: undefined,
   selectedBlogId: undefined,
   errorMessage: undefined,
 });
@@ -31,9 +35,14 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
         errorMessage: undefined,
       };
     }
-    case BlogActionTypes.LOAD_BLOGS_AT_PAGE_SUCCESS: {
-      console.log('all blogs', action.payload);
-      return adapter.addMany(action.payload, {
+    case BlogActionTypes.LOAD_BLOGS_WITH_QUERY_SUCCESS: {
+      const response: HttpResponse<Object> = action.payload;
+      const blogs: Blog[] = map(response.body, (blog) => new Blog(blog));
+      const lastPageLink: string = last(split(response.headers.get('Link'), ','));
+      const list = extractQueryList(lastPageLink);
+      console.log('list', list);
+
+      return adapter.addMany(blogs, {
         ...adapter.removeAll(state),
         errorMessage: undefined,
       });
@@ -48,6 +57,7 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
         errorMessage: undefined,
       });
     }
+    case BlogActionTypes.LOAD_BLOGS_WITH_QUERY_FAIL:
     case BlogActionTypes.LOAD_BLOGS_AT_PAGE_FAIL:
     case BlogActionTypes.LOAD_REPO_FAIL:
     case BlogActionTypes.LOAD_ONE_BLOG_FAIL: {

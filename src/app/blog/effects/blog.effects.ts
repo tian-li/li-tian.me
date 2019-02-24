@@ -4,6 +4,7 @@ import { Action } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Rx';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 import {
   BlogActionTypes,
@@ -16,6 +17,9 @@ import {
   LoadRepo,
   LoadRepoFail,
   LoadRepoSUccess,
+  LoadBlogsWithQuery,
+  LoadBlogsWithQuerySuccess,
+  LoadBlogsWithQueryFail,
 } from '../actions/blog.actions';
 import { Blog } from '../model/blog';
 import { Repo } from '../model/repo';
@@ -45,6 +49,18 @@ export class BlogEffects {
       return this.blogService.loadBlogsAtPage(payload.page, payload.perPage).pipe(
         map((blogs: Blog[]) => new LoadBlogsAtPageSuccess(blogs)),
         catchError((err: any) => of(new LoadBlogsAtPageFail(err)))
+      );
+    })
+  );
+
+  @Effect()
+  loadBlogsWithQuery$: Observable<Action> = this.actions$.pipe(
+    ofType<LoadBlogsWithQuery>(BlogActionTypes.LOAD_BLOGS_WITH_QUERY),
+    map((action: LoadBlogsWithQuery) => action.payload),
+    switchMap((payload: { [key: string]: string}) => {
+      return this.blogService.loadBlogsByFilter(payload).pipe(
+        map((response: HttpResponse<Object>) => new LoadBlogsWithQuerySuccess(response)),
+        catchError((err: any) => of(new LoadBlogsWithQueryFail(err)))
       );
     })
   );
