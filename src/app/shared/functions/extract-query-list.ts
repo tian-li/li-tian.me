@@ -1,6 +1,6 @@
 import { split, last, reduce } from 'lodash';
 
-export function extractQueryList(url: string): { [key: string]: string } {
+export function extractQueryList(url: string): { [key: string]: any } {
   const queryString = last(split(url, '?'));
   const queryPairs: string[] = split(queryString, '&');
   return reduce(

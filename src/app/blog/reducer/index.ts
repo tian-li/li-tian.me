@@ -53,3 +53,8 @@ export const getErrorMessage = createSelector(
   getBlogEntitiesState,
   fromBlogs => fromBlogs.errorMessage
 );
+
+export const getTotalPage = createSelector(
+  getBlogEntitiesState,
+  fromBlogs => fromBlogs.totalPage
+);

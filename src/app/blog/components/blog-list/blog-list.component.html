@@ -18,9 +18,8 @@
   <a
     class="page-number"
     *ngFor="let page of pageNumbers"
-    routerLinkActive="active-page"
+    [ngClass]="{'active-page': isActivePage(page)}"
     [routerLink]="['./']"
-    [queryParams]="{ page: page }"
     >{{ page }}</a
   >
   <button

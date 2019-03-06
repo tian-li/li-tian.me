@@ -19,7 +19,7 @@ import { BlogService } from '../../service/blog.service';
 @Component({
   selector: 'app-blog-list',
   templateUrl: './blog-list.component.html',
-  styleUrls: ['blog-list.component.scss']
+  styleUrls: ['blog-list.component.scss'],
 })
 export class BlogListComponent implements OnInit, OnDestroy {
   destroy$: Subject<void> = new Subject<void>();
@@ -39,17 +39,14 @@ export class BlogListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new BlogActions.LoadRepo());
     this.blogs$ = this.store.pipe(select(fromBlog.getAllBlogs));
 
-    combineLatest(
-      this.store.pipe(select(fromBlog.getRepo)),
-      this.route.queryParams
-    )
+    combineLatest(this.store.pipe(select(fromBlog.getTotalPage)), this.route.queryParams)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([repo, queryParams]: [Repo, Params]) => {
+      .subscribe(([totalPage, queryParams]: [number, Params]) => {
         console.log('queryParams', queryParams);
         this.queryList = this.blogService.buildQuery(queryParams);
-        this.allBlogsCount = repo.openIssuesCount;
-        const overPage: boolean =
-          this.currentPage > this.allBlogsCount / this.perPage + 1;
+        this.allBlogsCount = totalPage;
+        const overPage: boolean = this.currentPage > this.allBlogsCount / this.perPage + 1;
+        console.log('this.currentPage', this.currentPage);
         if (overPage || this.currentPage <= 0) {
           this.updateFilter('page', '1');
         }
@@ -57,11 +54,12 @@ export class BlogListComponent implements OnInit, OnDestroy {
       });
   }
 
+  isActivePage(page: number): boolean {
+    return this.currentPage === page;
+  }
+
   get perPage(): number {
-    return parseInt(
-      get(this.queryList, 'per_page', defaultValues.blogsPerPage),
-      10
-    );
+    return parseInt(get(this.queryList, 'per_page', defaultValues.blogsPerPage), 10);
   }
 
   get currentPage(): number {
@@ -93,14 +91,14 @@ export class BlogListComponent implements OnInit, OnDestroy {
   previousPage(): void {
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { page: String(this.currentPage - 1) }
+      queryParams: { page: String(this.currentPage - 1) },
     });
   }
 
   nextPage(): void {
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { page: String(this.currentPage + 1) }
+      queryParams: { page: String(this.currentPage + 1) },
     });
   }
 

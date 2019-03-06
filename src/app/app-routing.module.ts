@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/blog/page/1', pathMatch: 'full' },
+  { path: '', redirectTo: '/blog?page=1', pathMatch: 'full' },
   { path: 'about', component: AboutComponent },
   { path: '**', redirectTo: 'blog' }
 ];

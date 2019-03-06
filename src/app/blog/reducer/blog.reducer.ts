@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { BlogActionsUnion, BlogActionTypes } from '../actions/blog.actions';
-import { map, split, last } from 'lodash';
+import { map, split, last, find, includes } from 'lodash';
 
 import { Blog } from '../model/blog';
 import { Repo } from '../model/repo';
@@ -38,13 +38,17 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
     case BlogActionTypes.LOAD_BLOGS_WITH_QUERY_SUCCESS: {
       const response: HttpResponse<Object> = action.payload;
       const blogs: Blog[] = map(response.body, (blog) => new Blog(blog));
-      const lastPageLink: string = last(split(response.headers.get('Link'), ','));
+      const lastPageLink: string = find(split(response.headers.get('Link'), ','), (link: string) => {
+        return includes(link, 'rel="last"');
+      });
+      console.log('lastPageLink', lastPageLink);
       const list = extractQueryList(lastPageLink);
       console.log('list', list);
 
       return adapter.addMany(blogs, {
         ...adapter.removeAll(state),
         errorMessage: undefined,
+        totalPage: parseInt(list.page, 10)
       });
     }
     case BlogActionTypes.LOAD_ONE_BLOG: {

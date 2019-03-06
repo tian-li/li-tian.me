@@ -11,7 +11,7 @@ const blogRoutes = [
     component: BlogComponent,
     children: [
       { path: '', component: BlogListComponent },
-      // { path: '', redirectTo: 'page/1', pathMatch: 'full' },
+      // { path: '', redirectTo: '?page=1', pathMatch: 'full' },
       // { path: 'page', redirectTo: 'page/1', pathMatch: 'full' },
       // { path: 'page/:pageNumber', component: BlogListComponent },
     ],
