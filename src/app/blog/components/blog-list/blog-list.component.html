@@ -18,7 +18,7 @@
   <a
     class="page-number"
     *ngFor="let page of pageNumbers"
-    [ngClass]="{'active-page': isActivePage(page)}"
+    [ngClass]="{ 'active-page': isActivePage(page) }"
     [routerLink]="['./']"
     >{{ page }}</a
   >

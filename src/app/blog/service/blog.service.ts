@@ -20,55 +20,73 @@ export class BlogService {
   githubConfig = {
     clientId: githubConfig.clientId,
     clientSecret: githubConfig.clientSecret,
-    time: Date.now()
+    time: Date.now(),
   };
-
   params: HttpParams;
+  loadCount: number = 0;
 
   constructor(private http: HttpClient) {
     this.params = new HttpParams()
-      .set('client_id', this.githubConfig.clientId)
-      .set('client_secret', this.githubConfig.clientSecret)
+      // .set('client_id', this.githubConfig.clientId)
+      // .set('client_secret', this.githubConfig.clientSecret)
       .set('per_page', defaultValues.blogsPerPage)
       .set('creator', githubConfig.userName);
   }
 
   loadRepo(): Observable<Repo> {
+    if (this.loadCount >= 300) {
+      return;
+    }
+    this.loadCount++;
+
     return this.http.get(this.api, { params: this.params }).pipe(
-      map(repo => {
+      map((repo) => {
         return new Repo(repo);
       })
     );
   }
 
   loadBlogsAtPage(page: string, perPage: string): Observable<Blog[]> {
+    if (this.loadCount >= 300) {
+      return;
+    }
+    this.loadCount++;
+
     this.params = this.params
       .set('page', page)
       .set('per_page', perPage ? perPage : defaultValues.blogsPerPage);
 
     return this.http.get(`${this.api}/issues`, { params: this.params }).pipe(
-      map(issues => {
-        return _map(issues, issue => new Blog(issue));
+      map((issues) => {
+        return _map(issues, (issue) => new Blog(issue));
       })
     );
   }
 
-  loadBlogsByFilter(payload: {
-    [key: string]: string;
-  }): Observable<HttpResponse<Object>> {
-    console.log('load by filter', payload);
+  loadBlogsByFilter(payload: { [key: string]: string }): Observable<HttpResponse<Object>> {
+    if (this.loadCount >= 300) {
+      return;
+    }
+
+    this.loadCount++;
+
     forEach(payload, (value: string, key: string) => {
       this.params = this.params.set(key, value);
     });
     return this.http.get(`${this.api}/issues`, {
       params: this.params,
-      observe: 'response'
+      observe: 'response',
     });
   }
 
   loadOneBlog(issueNumber: number): Observable<Blog> {
+    if (this.loadCount >= 300) {
+      return;
+    }
+    this.loadCount++;
+
     return this.http.get(`${this.api}/issues/${issueNumber}`).pipe(
-      map(issue => {
+      map((issue) => {
         return new Blog(issue);
       })
     );
@@ -77,11 +95,7 @@ export class BlogService {
   buildQuery(queryParams: Params): { [key: string]: string } {
     return reduce(
       queryParams,
-      (
-        result: { [key: string]: string },
-        queryValue: string,
-        queryKey: string
-      ) => {
+      (result: { [key: string]: string }, queryValue: string, queryKey: string) => {
         const query: { type: string } = get(avaliableQueryParams, queryKey);
 
         if (query) {

@@ -1,0 +1,1 @@
+export const allowedLoadTimesPerSession: number = 500;

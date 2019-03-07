@@ -1,19 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
-import { filter } from 'rxjs/operators/filter';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
-import { get, parseInt, isNumber, forEach } from 'lodash';
+import { get, parseInt, isEqual } from 'lodash';
 
 import { Blog } from '../../model/blog';
 import * as fromBlog from '../../reducer/index';
 import * as BlogActions from '../../actions/blog.actions';
-import { Repo } from '../../model/repo';
 import * as defaultValues from '../../../shared/models/constants/default-values';
-import { avaliableQueryParams } from '../../../shared/models/available-query-params';
 import { BlogService } from '../../service/blog.service';
 
 @Component({
@@ -24,8 +21,7 @@ import { BlogService } from '../../service/blog.service';
 export class BlogListComponent implements OnInit, OnDestroy {
   destroy$: Subject<void> = new Subject<void>();
   blogs$: Observable<Blog[]>;
-  allBlogsCount: number;
-
+  totalPage: number;
   queryList: { [key: string]: string } = {};
 
   constructor(
@@ -36,21 +32,27 @@ export class BlogListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new BlogActions.LoadRepo());
     this.blogs$ = this.store.pipe(select(fromBlog.getAllBlogs));
 
     combineLatest(this.store.pipe(select(fromBlog.getTotalPage)), this.route.queryParams)
       .pipe(takeUntil(this.destroy$))
       .subscribe(([totalPage, queryParams]: [number, Params]) => {
-        console.log('queryParams', queryParams);
-        this.queryList = this.blogService.buildQuery(queryParams);
-        this.allBlogsCount = totalPage;
-        const overPage: boolean = this.currentPage > this.allBlogsCount / this.perPage + 1;
-        console.log('this.currentPage', this.currentPage);
-        if (overPage || this.currentPage <= 0) {
-          this.updateFilter('page', '1');
+        this.totalPage = totalPage;
+        const query = this.blogService.buildQuery(queryParams);
+
+        if (!this.totalPage) {
+          this.loadByFilter();
+        } else {
+          if (!isEqual(this.queryList, query)) {
+            this.queryList = query;
+
+            if (this.currentPage > totalPage || this.currentPage <= 0) {
+              this.updateFilter('page', '1');
+            }
+
+            this.loadByFilter();
+          }
         }
-        this.loadByFilter();
       });
   }
 
@@ -67,15 +69,9 @@ export class BlogListComponent implements OnInit, OnDestroy {
   }
 
   get pageNumbers(): number[] {
-    let remaining: number = this.allBlogsCount;
     const pageNumbersArray: number[] = [];
-    let currentPage = 1;
-    while (remaining > this.perPage) {
-      pageNumbersArray.push(currentPage++);
-      remaining -= this.perPage;
-    }
-    if (remaining > 0) {
-      pageNumbersArray.push(currentPage++);
+    for (let i = 0; i < this.totalPage; i++) {
+      pageNumbersArray.push(i + 1);
     }
     return pageNumbersArray;
   }
