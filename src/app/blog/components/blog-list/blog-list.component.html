@@ -20,8 +20,9 @@
     *ngFor="let page of pageNumbers"
     [ngClass]="{ 'active-page': isActivePage(page) }"
     [routerLink]="['./']"
-    >{{ page }}</a
   >
+    {{ page }}
+  </a>
   <button
     class="next-page"
     mat-button

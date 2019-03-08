@@ -58,3 +58,8 @@ export const getTotalPage = createSelector(
   getBlogEntitiesState,
   fromBlogs => fromBlogs.totalPage
 );
+
+export const getLoadCount = createSelector(
+  getBlogEntitiesState,
+  fromBlogs => fromBlogs.loadCount
+);

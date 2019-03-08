@@ -5,12 +5,16 @@ import { Github } from 'github-api';
 import { map as _map, forEach, reduce, get } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators/map';
+import { select, Store } from '@ngrx/store';
 
+import * as fromBlog from '../reducer/index';
 import { githubConfig } from '../../../github-config';
 import { Blog } from '../model/blog';
 import { Repo } from '../model/repo';
 import * as defaultValues from '../../shared/models/constants/default-values';
 import { avaliableQueryParams } from '../../shared/models/available-query-params';
+import { ErrorMessage } from '../../shared/models/error-message';
+import * as BlogActions from '../actions/blog.actions';
 
 @Injectable()
 export class BlogService {
@@ -23,22 +27,40 @@ export class BlogService {
     time: Date.now(),
   };
   params: HttpParams;
-  loadCount: number = 0;
 
-  constructor(private http: HttpClient) {
+  // from ngrx/store
+  blogs: Observable<Blog[]>;
+  totalPage: Observable<number>;
+  selectedBlogId: Observable<number>;
+  selectedBlog: Observable<Blog>;
+  loadCount: Observable<number>;
+  errorMessage: Observable<ErrorMessage>;
+
+  constructor(private http: HttpClient, private store: Store<fromBlog.State>) {
+    this.blogs = this.store.pipe(select(fromBlog.getAllBlogs));
+    this.totalPage = this.store.pipe(select(fromBlog.getTotalPage));
+    this.selectedBlogId = this.store.pipe(select(fromBlog.getSelectedBlogId));
+    this.selectedBlog = this.store.pipe(select(fromBlog.getSelectedBlog));
+    this.loadCount = this.store.pipe(select(fromBlog.getLoadCount));
+    this.errorMessage = this.store.pipe(select(fromBlog.getErrorMessage));
+
     this.params = new HttpParams()
-      // .set('client_id', this.githubConfig.clientId)
-      // .set('client_secret', this.githubConfig.clientSecret)
+      .set('client_id', this.githubConfig.clientId)
+      .set('client_secret', this.githubConfig.clientSecret)
       .set('per_page', defaultValues.blogsPerPage)
       .set('creator', githubConfig.userName);
   }
 
-  loadRepo(): Observable<Repo> {
-    if (this.loadCount >= 300) {
-      return;
-    }
-    this.loadCount++;
+  // dispathcers
+  dispatchLoadBloagsWithQuery(queryList: Params): void {
+    this.store.dispatch(new BlogActions.LoadBlogsWithQuery(queryList));
+  }
 
+  dispatchLoadOneBlog(payload: { blogNumber: number }): void {
+    this.store.dispatch(new BlogActions.LoadOneBlog(payload));
+  }
+
+  loadRepo(): Observable<Repo> {
     return this.http.get(this.api, { params: this.params }).pipe(
       map((repo) => {
         return new Repo(repo);
@@ -47,11 +69,6 @@ export class BlogService {
   }
 
   loadBlogsAtPage(page: string, perPage: string): Observable<Blog[]> {
-    if (this.loadCount >= 300) {
-      return;
-    }
-    this.loadCount++;
-
     this.params = this.params
       .set('page', page)
       .set('per_page', perPage ? perPage : defaultValues.blogsPerPage);
@@ -64,12 +81,6 @@ export class BlogService {
   }
 
   loadBlogsByFilter(payload: { [key: string]: string }): Observable<HttpResponse<Object>> {
-    if (this.loadCount >= 300) {
-      return;
-    }
-
-    this.loadCount++;
-
     forEach(payload, (value: string, key: string) => {
       this.params = this.params.set(key, value);
     });
@@ -80,11 +91,6 @@ export class BlogService {
   }
 
   loadOneBlog(issueNumber: number): Observable<Blog> {
-    if (this.loadCount >= 300) {
-      return;
-    }
-    this.loadCount++;
-
     return this.http.get(`${this.api}/issues/${issueNumber}`).pipe(
       map((issue) => {
         return new Blog(issue);

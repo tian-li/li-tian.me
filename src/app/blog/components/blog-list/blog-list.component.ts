@@ -22,19 +22,19 @@ export class BlogListComponent implements OnInit, OnDestroy {
   destroy$: Subject<void> = new Subject<void>();
   blogs$: Observable<Blog[]>;
   totalPage: number;
-  queryList: { [key: string]: string } = {};
+  queryList: Params = {};
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private store: Store<fromBlog.State>,
+    // private store: Store<fromBlog.State>,
     private blogService: BlogService
   ) {}
 
   ngOnInit(): void {
-    this.blogs$ = this.store.pipe(select(fromBlog.getAllBlogs));
+    this.blogs$ = this.blogService.blogs;
 
-    combineLatest(this.store.pipe(select(fromBlog.getTotalPage)), this.route.queryParams)
+    combineLatest(this.blogService.totalPage, this.route.queryParams)
       .pipe(takeUntil(this.destroy$))
       .subscribe(([totalPage, queryParams]: [number, Params]) => {
         this.totalPage = totalPage;
@@ -81,7 +81,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
   }
 
   loadByFilter() {
-    this.store.dispatch(new BlogActions.LoadBlogsWithQuery(this.queryList));
+    this.blogService.dispatchLoadBloagsWithQuery(this.queryList);
   }
 
   previousPage(): void {
