@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
@@ -8,8 +7,6 @@ import { combineLatest } from 'rxjs';
 import { get, parseInt, isEqual } from 'lodash';
 
 import { Blog } from '../../model/blog';
-import * as fromBlog from '../../reducer/index';
-import * as BlogActions from '../../actions/blog.actions';
 import * as defaultValues from '../../../shared/models/constants/default-values';
 import { BlogService } from '../../service/blog.service';
 
@@ -27,7 +24,6 @@ export class BlogListComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    // private store: Store<fromBlog.State>,
     private blogService: BlogService
   ) {}
 

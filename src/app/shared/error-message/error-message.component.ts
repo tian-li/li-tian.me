@@ -1,6 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, Output } from '@angular/core';
+import { ErrorMessage } from '../models/error-message';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-error-message',
@@ -8,11 +8,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./error-message.component.scss']
 })
 export class ErrorMessageComponent {
-  @Input() errorMessage: HttpErrorResponse;
-
-  constructor(private router: Router) { }
-
-  backToHome(): void {
-    this.router.navigate(['blog/page/1']);
-  }
+  @Input() errorMessage: ErrorMessage;
+  @Output() back = new EventEmitter();;
 }

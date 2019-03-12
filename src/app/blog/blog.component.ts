@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Subject } from 'rxjs/Subject';
-import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 import { BlogService } from './service/blog.service';
 import { ErrorMessage } from '../shared/models/error-message';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-blog',
@@ -14,44 +14,29 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class BlogComponent implements OnInit, OnDestroy {
   destroy$: Subject<void> = new Subject<void>();
-  snackBarRef: MatSnackBarRef<SimpleSnackBar>;
+  errorMessage: ErrorMessage;
 
   public constructor(
     private titleService: Title,
     private blogService: BlogService,
-    private snackBar: MatSnackBar
+    private router: Router,
   ) {
     this.titleService.setTitle('Blogs | Tian');
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.blogService.errorMessage
-      .pipe(takeUntil(this.destroy$))
+      .pipe(delay(0),takeUntil(this.destroy$))
       .subscribe((errorMessage: ErrorMessage) => {
-        if (errorMessage) {
-          this.openSnackBar(errorMessage.title, 'Dismiss');
-        } else {
-          this.dismissSnackBar();
-        }
+        this.errorMessage = errorMessage;
       });
   }
 
-  openSnackBar(message: string, action: string) {
-    if(!this.snackBarRef) {
-      this.snackBar.open(message, action, {
-        duration: 2000,
-      });
-    }
-  }
-
-  dismissSnackBar() {
-    if(this.snackBarRef) {
-      this.snackBarRef.dismiss();
-    }
+  backToHome(): void {
+    this.router.navigate(['blog']);
   }
 
   ngOnDestroy(): void {
-    this.dismissSnackBar();
     this.destroy$.next();
     this.destroy$.complete();
   }

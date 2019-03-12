@@ -5,7 +5,7 @@
 >
   <app-blog-list-item [blog]="blog"></app-blog-list-item>
 </div>
-<div class="pagination-container unselectable">
+<div class="pagination-container unselectable" *ngIf="pageNumbers.length > 0">
   <button
     class="previous-page"
     mat-button
