@@ -1,9 +1,35 @@
-<div *ngFor="let issue of issues$ | async; let last=last" class="blog-list-item-container"
-  [ngClass]="{'last-item': last}">
-  <app-blog-list-item [blog]="issue"></app-blog-list-item>
+<div
+  *ngFor="let blog of (blogs$ | async); let last = last"
+  class="blog-list-item-container"
+  [ngClass]="{ 'last-item': last }"
+>
+  <app-blog-list-item [blog]="blog"></app-blog-list-item>
 </div>
-<div class="pagination-container unselectable">
-  <button class="previous-page" mat-button color="primary" (click)="previousPage()" [disabled]="disablePrevious">Previous</button>
-  <a class="page-number" *ngFor="let page of pageNumbers" routerLinkActive="active-page" [routerLink]="['../', page]">{{page}}</a>
-  <button class="next-page" mat-button color="primary" (click)="nextPage()" [disabled]="disableNext">Next</button>
+<div class="pagination-container unselectable" *ngIf="pageNumbers.length > 0">
+  <button
+    class="previous-page"
+    mat-button
+    color="primary"
+    (click)="previousPage()"
+    [disabled]="disablePrevious"
+  >
+    Previous
+  </button>
+  <a
+    class="page-number"
+    *ngFor="let page of pageNumbers"
+    [ngClass]="{ 'active-page': isActivePage(page) }"
+    [routerLink]="['./']"
+  >
+    {{ page }}
+  </a>
+  <button
+    class="next-page"
+    mat-button
+    color="primary"
+    (click)="nextPage()"
+    [disabled]="disableNext"
+  >
+    Next
+  </button>
 </div>

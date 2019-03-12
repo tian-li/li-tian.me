@@ -10,12 +10,10 @@ const blogRoutes = [
     path: 'blog',
     component: BlogComponent,
     children: [
-      { path: '', redirectTo: 'page/1', pathMatch: 'full' },
-      { path: 'page', redirectTo: 'page/1', pathMatch: 'full' },
-      { path: 'page/:pageNumber', component: BlogListComponent },
+      { path: '', component: BlogListComponent },
+      { path: ':id', component: BlogDetailComponent },
     ],
   },
-  { path: 'blog/:id', component: BlogDetailComponent },
 ];
 
 @NgModule({
