@@ -1,9 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
+import { Observable ,  Subject ,  combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
 import { get, parseInt, isEqual } from 'lodash';
 
 import { Blog } from '../../model/blog';
@@ -91,6 +89,13 @@ export class BlogListComponent implements OnInit, OnDestroy {
     this.router.navigate(['./'], {
       relativeTo: this.route,
       queryParams: { page: String(this.currentPage + 1) },
+    });
+  }
+
+  gotoPage(page: number) {
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: { page: String(page) },
     });
   }
 

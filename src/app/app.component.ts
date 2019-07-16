@@ -1,6 +1,5 @@
 import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { MatSidenav } from '@angular/material/sidenav';
 
 import { ScreenConfig } from './shared/models/screen-config';
@@ -11,7 +10,7 @@ import { ScreenConfig } from './shared/models/screen-config';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy {
-  @ViewChild(MatSidenav)
+  @ViewChild(MatSidenav, {static: false})
   sidenav: MatSidenav;
 
   watcher: Subscription;
@@ -22,15 +21,15 @@ export class AppComponent implements OnDestroy {
     sidenavMode: 'side',
   };
 
-  constructor(public media: ObservableMedia) {
-    this.watcher = media.subscribe((change: MediaChange) => {
-      this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
-      if (change.mqAlias === 'sm' || change.mqAlias === 'xs') {
-        this.screenConfig = this.mobileConfig;
-      } else {
-        this.screenConfig = this.desktopConfig;
-      }
-    });
+  constructor() {
+    // this.watcher = media.subscribe((change: MediaChange) => {
+    //   this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
+    //   if (change.mqAlias === 'sm' || change.mqAlias === 'xs') {
+    //     this.screenConfig = this.mobileConfig;
+    //   } else {
+    //     this.screenConfig = this.desktopConfig;
+    //   }
+    // });
   }
 
   toggleSideNav(): void {

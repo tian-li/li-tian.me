@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Blog } from '../../model/blog';
 
 import { BlogService } from '../../service/blog.service';

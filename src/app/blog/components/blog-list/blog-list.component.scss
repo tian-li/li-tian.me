@@ -17,17 +17,25 @@
   }
 
   .next-page {
-    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .previous-page,
+  .next-page {
+    
+    cursor: pointer;
   }
 
   a.page-number {
     opacity: 0.6;
     padding: 0 10px;
     position: relative;
+    cursor: pointer;
   }
 
   a.active-page {
     opacity: 1;
+    cursor: default;
 
     &::after {
       content: '·';

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Github } from 'github-api';
 import { map as _map, forEach, reduce, get } from 'lodash';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators/map';
+import { map } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 
 import * as fromBlog from '../reducer/index';

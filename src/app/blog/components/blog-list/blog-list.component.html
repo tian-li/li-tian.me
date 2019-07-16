@@ -8,8 +8,6 @@
 <div class="pagination-container unselectable" *ngIf="pageNumbers.length > 0">
   <button
     class="previous-page"
-    mat-button
-    color="primary"
     (click)="previousPage()"
     [disabled]="disablePrevious"
   >
@@ -18,15 +16,13 @@
   <a
     class="page-number"
     *ngFor="let page of pageNumbers"
+    (click)="gotoPage(page)"
     [ngClass]="{ 'active-page': isActivePage(page) }"
-    [routerLink]="['./']"
   >
     {{ page }}
   </a>
   <button
     class="next-page"
-    mat-button
-    color="primary"
     (click)="nextPage()"
     [disabled]="disableNext"
   >

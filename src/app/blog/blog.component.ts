@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { BlogService } from './service/blog.service';

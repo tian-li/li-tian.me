@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -22,7 +21,6 @@ import { AboutComponent } from './about/about.component';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    FlexLayoutModule,
     MaterialModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([]),

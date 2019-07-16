@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -15,14 +14,12 @@ import { MarkdownPipe } from '../shared/markdown.pipe';
 import { reducers } from './reducer';
 import { BlogEffects } from './effects/blog.effects';
 import { BlogListItemComponent } from './components/blog-list/blog-list-item/blog-list-item.component';
-import { FirebaseService } from '../shared/firebase.service';
 import { BlogService } from './service/blog.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    FlexLayoutModule,
     MaterialModule,
     BlogRoutingModule,
     StoreModule.forFeature('blogs', reducers),
@@ -36,6 +33,6 @@ import { BlogService } from './service/blog.service';
     ErrorMessageComponent,
     MarkdownPipe,
   ],
-  providers: [BlogService, FirebaseService, BlogService],
+  providers: [BlogService, BlogService],
 })
 export class BlogModule {}
