@@ -1,13 +1,24 @@
-.mat-sidenav {
-  width: 300px;
-}
-
-.mat-sidenav-content {
-  padding-top: 80px;
-  padding-bottom: 80px;
-  position: relative;
-  .button-open-sidenav {
+.sidenav-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  .sidenav {
     position: fixed;
-    top: 5px;
+    height: 100%;
+    width: 20%;
   }
+  
+  .sidenav-content {
+    margin-left: 20%;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    position: relative;
+    .button-open-sidenav {
+      position: fixed;
+      top: 5px;
+    }
+  }
+  
 }

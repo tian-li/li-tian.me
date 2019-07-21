@@ -1,13 +1,13 @@
-<div *ngIf="errorMessage" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
-  <div fxFlex>
+<div *ngIf="errorMessage">
+  <div>
     <h1>{{ errorMessage.title }}</h1>
   </div>
-  <div fxFlex>
+  <div>
     <p>{{ errorMessage.message }}</p>
   </div>
-  <div fxFlex>
-    <button mat-icon-button (click)="back.emit()">
-      <mat-icon>arrow_back</mat-icon>
+  <div>
+    <button (click)="back.emit()">
+      <i>arrow_back</i>
     </button>
   </div>
 </div>

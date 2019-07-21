@@ -9,5 +9,5 @@ import { EventEmitter } from '@angular/core';
 })
 export class ErrorMessageComponent {
   @Input() errorMessage: ErrorMessage;
-  @Output() back = new EventEmitter();;
+  @Output() back = new EventEmitter();
 }

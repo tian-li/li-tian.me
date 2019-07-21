@@ -1,1 +1,1 @@
-export const allowedLoadTimesPerSession: number = 500;
+export const allowedLoadTimesPerSession = 500;

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { BlogService } from './service/blog.service';
@@ -24,9 +24,9 @@ export class BlogComponent implements OnInit, OnDestroy {
     this.titleService.setTitle('Blogs | Tian');
   }
 
-  ngOnInit():void {
+  ngOnInit(): void {
     this.blogService.errorMessage
-      .pipe(delay(0),takeUntil(this.destroy$))
+      .pipe(delay(0), takeUntil(this.destroy$))
       .subscribe((errorMessage: ErrorMessage) => {
         this.errorMessage = errorMessage;
       });
