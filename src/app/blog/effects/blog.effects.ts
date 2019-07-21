@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { of ,  Observable } from 'rxjs';
+import { of,  Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
 
@@ -26,7 +26,7 @@ export class BlogEffects {
     map((action: LoadBlogsWithQuery) => action.payload),
     switchMap((payload: { [key: string]: string}) => {
       return this.blogService.loadBlogsByFilter(payload).pipe(
-        map((response: HttpResponse<Object>) => new LoadBlogsWithQuerySuccess(response)),
+        map((response: HttpResponse<any>) => new LoadBlogsWithQuerySuccess(response)),
         catchError((err: any) => of(new LoadBlogsWithQueryFail(err)))
       );
     })

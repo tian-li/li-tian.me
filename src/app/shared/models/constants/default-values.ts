@@ -1,3 +1,3 @@
-export const blogsPerPage: string = '3';
+export const blogsPerPage = '3';
 
-export const defaultErrorMessage: string = '发生了一个错误。';
+export const defaultErrorMessage = '发生了一个错误。';

@@ -12,25 +12,33 @@
   margin-bottom: 40px;
   text-align: center;
 
+  .btn-page{
+    border: none;
+    font-size: 1rem;
+    &:hover:enabled {
+      color: #076DA6;
+      cursor: pointer;
+    }
+    &:hover:disabled {
+      cursor: default;
+    }
+  }
+
   .previous-page {
     margin-right: 15px;
   }
 
   .next-page {
-    margin-right: 15px;
-  }
-
-  .previous-page,
-  .next-page {
-    
-    cursor: pointer;
+    margin-left: 15px;
   }
 
   a.page-number {
-    opacity: 0.6;
     padding: 0 10px;
     position: relative;
     cursor: pointer;
+    &:hover:not(.active-page) {
+      color: #076DA6;
+    }
   }
 
   a.active-page {

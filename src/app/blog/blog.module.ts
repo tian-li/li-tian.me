@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { MaterialModule } from '../shared/material.module';
 import { ErrorMessageComponent } from '../shared/error-message/error-message.component';
 import { BlogComponent } from './blog.component';
 import { BlogRoutingModule } from './blog-routing.module';
@@ -20,7 +19,6 @@ import { BlogService } from './service/blog.service';
   imports: [
     CommonModule,
     FormsModule,
-    MaterialModule,
     BlogRoutingModule,
     StoreModule.forFeature('blogs', reducers),
     EffectsModule.forFeature([BlogEffects]),

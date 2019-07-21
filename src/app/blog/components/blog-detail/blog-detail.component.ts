@@ -40,5 +40,6 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.titleService.setTitle('Blogs | Tian');
   }
 }

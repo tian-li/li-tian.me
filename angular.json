@@ -27,8 +27,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "src/theme.scss"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -55,7 +54,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "tian-tian-blog:build"
+            "browserTarget": "tian-tian-blog:build",
+            "port": 1234
           },
           "configurations": {
             "production": {

@@ -23,7 +23,7 @@ export class LoadBlogsWithQuery implements Action {
 export class LoadBlogsWithQuerySuccess implements Action {
   readonly type = BlogActionTypes.LOAD_BLOGS_WITH_QUERY_SUCCESS;
 
-  constructor(public payload: HttpResponse<Object>) {
+  constructor(public payload: HttpResponse<any>) {
   }
 }
 

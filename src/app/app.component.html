@@ -1,11 +1,8 @@
-<mat-sidenav-container fullscreen>
-  <mat-sidenav #sidenav [mode]="screenConfig.sidenavMode" [opened]="screenConfig.sidenavOpened">
-    <app-side-nav (routeChanged)="onRouteChanged()"></app-side-nav>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <button class="button-open-sidenav" mat-icon-button (click)="toggleSideNav()">
-      <mat-icon>menu</mat-icon>
-    </button>
+<div class="sidenav-container">
+  <div class="sidenav">
+    <app-side-nav></app-side-nav>
+  </div>
+  <div class="sidenav-content">
     <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+</div>

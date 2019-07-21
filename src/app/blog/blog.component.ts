@@ -24,9 +24,9 @@ export class BlogComponent implements OnInit, OnDestroy {
     this.titleService.setTitle('Blogs | Tian');
   }
 
-  ngOnInit():void {
+  ngOnInit(): void {
     this.blogService.errorMessage
-      .pipe(delay(0),takeUntil(this.destroy$))
+      .pipe(delay(0), takeUntil(this.destroy$))
       .subscribe((errorMessage: ErrorMessage) => {
         this.errorMessage = errorMessage;
       });

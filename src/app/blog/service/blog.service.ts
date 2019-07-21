@@ -17,7 +17,7 @@ import * as BlogActions from '../actions/blog.actions';
 
 @Injectable()
 export class BlogService {
-  api: string = 'https://api.github.com/repos/tian-li/blog';
+  api = 'https://api.github.com/repos/tian-li/blog';
   // api: string = 'https://api.github.com/repos/angular/angular';
 
   githubConfig = {
@@ -57,7 +57,7 @@ export class BlogService {
     this.store.dispatch(new BlogActions.LoadOneBlog(payload));
   }
 
-  loadBlogsByFilter(payload: { [key: string]: string }): Observable<HttpResponse<Object>> {
+  loadBlogsByFilter(payload: { [key: string]: string }): Observable<HttpResponse<any>> {
     forEach(payload, (value: string, key: string) => {
       this.params = this.params.set(key, value);
     });
