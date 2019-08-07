@@ -1,11 +1,13 @@
 import * as dayjs from 'dayjs';
 import { map } from 'lodash';
 
+import { Label } from './label';
+
 export class Blog {
   id: string;
   number: number;
   title: string;
-  labels: string[];
+  labels: Label[];
   body: string;
   comments: number;
   createdAt: string;
@@ -17,7 +19,7 @@ export class Blog {
     this.title = blog.title;
     this.body = blog.body;
     this.comments = blog.comments;
-    this.labels = map(blog.labels, label => label.name);
+    this.labels = map(blog.labels, label => new Label(label));
     this.createdAt = blog.created_at;
     this.updatedAt = blog.updated_at;
   }

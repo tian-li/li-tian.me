@@ -14,8 +14,14 @@
     font-weight: 400;
     opacity: 0.6;
 
-    .blog-tag {
+    .label {
       margin-left: 10px;
+      display: inline-block;
+      line-height: 1rem;
+      padding: 0.15em 4px;
+      border-radius: 2px;
+      text-decoration: none;
+      cursor: pointer;
     }
   }
 
