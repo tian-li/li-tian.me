@@ -11,8 +11,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BlogModule } from './blog/blog.module';
 import { reducers } from './blog/reducer';
-import { SideNavComponent } from './side-nav/side-nav.component';
 import { AboutComponent } from './about/about.component';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   imports: [
@@ -25,8 +26,10 @@ import { AboutComponent } from './about/about.component';
     StoreDevtoolsModule.instrument(),
     BlogModule,
     AppRoutingModule,
+    CoreModule,
+    SharedModule
   ],
-  declarations: [AppComponent, SideNavComponent, AboutComponent],
+  declarations: [AppComponent, AboutComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

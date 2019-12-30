@@ -1,5 +1,5 @@
 import { Component, Input, Output } from '@angular/core';
-import { ErrorMessage } from '../models/error-message';
+import { ErrorMessage } from '../../models/error-message';
 import { EventEmitter } from '@angular/core';
 
 @Component({

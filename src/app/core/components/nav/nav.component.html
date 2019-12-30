@@ -1,0 +1,21 @@
+<nav class="side-nav">
+  <img class="profile-image" src="../../assets/img/1.jpg" alt="头像" />
+  <div class="nav-links">
+    <ul class="unselectable">
+      <li>
+        <a
+          routerLink="/blog"
+          routerLinkActive="active"
+          [queryParams]="{ page: '1' }"
+        >
+          Blog
+        </a>
+      </li>
+      <li>
+        <a routerLink="/about" routerLinkActive="active">
+          About
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
