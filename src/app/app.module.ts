@@ -27,7 +27,7 @@ import { SharedModule } from './shared/shared.module';
     BlogModule,
     AppRoutingModule,
     CoreModule,
-    SharedModule
+    // SharedModule
   ],
   declarations: [AppComponent, AboutComponent],
   bootstrap: [AppComponent],

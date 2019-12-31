@@ -1,5 +1,6 @@
-import { Component } from "@angular/core";
+import { Component, Output, EventEmitter } from "@angular/core";
 import { BreakpointObserver, Breakpoints, BreakpointState } from "@angular/cdk/layout";
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: "app-nav",
@@ -9,17 +10,17 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from "@angular/cdk/l
 export class NavComponent {
   opened = true;
 
-  constructor(breakpointObserver: BreakpointObserver) {
-    breakpointObserver
-      .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
-      .subscribe((result: BreakpointState) => {
-        console.log("match result", result);
+  // constructor(breakpointObserver: BreakpointObserver) {
+  //   breakpointObserver
+  //     .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+  //     .subscribe((result: BreakpointState) => {
+  //       console.log("match result", result);
 
-        if(result.matches) {
-          this.close();
-        }
-      });
-  }
+  //       if(result.matches) {
+  //         this.close();
+  //       }
+  //     });
+  // }
 
   close() {
     this.opened = false;
@@ -28,7 +29,6 @@ export class NavComponent {
   open() {
     this.opened = true;
   }
-
 
 
 }

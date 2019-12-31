@@ -1,8 +1,21 @@
-<div class="sidenav-container">
-  <div class="sidenav">
-    <app-nav></app-nav>
-  </div>
-  <div class="sidenav-content">
+<!-- <ng-container *ngIf="!useNavBar">
+  <mat-sidenav-container fullscreen>
+    <mat-sidenav #sidenav [mode]="screenConfig.sidenavMode" [opened]="screenConfig.sidenavOpened">
+      <app-nav (routeChanged)="onRouteChanged()"></app-nav>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <button class="button-open-sidenav" mat-icon-button (click)="toggleSideNav()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container> -->
+
+
+<!-- <ng-container> -->
+  <app-navbar></app-navbar>
+  <div class="content">
     <router-outlet></router-outlet>
   </div>
-</div>
+<!-- </ng-container> -->
