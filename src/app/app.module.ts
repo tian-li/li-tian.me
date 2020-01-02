@@ -13,7 +13,6 @@ import { BlogModule } from './blog/blog.module';
 import { reducers } from './blog/reducer';
 import { AboutComponent } from './about/about.component';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   imports: [
@@ -27,7 +26,6 @@ import { SharedModule } from './shared/shared.module';
     BlogModule,
     AppRoutingModule,
     CoreModule,
-    // SharedModule
   ],
   declarations: [AppComponent, AboutComponent],
   bootstrap: [AppComponent],

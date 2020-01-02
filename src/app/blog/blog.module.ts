@@ -8,7 +8,6 @@ import { BlogComponent } from './blog.component';
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogListComponent } from './components/blog-list/blog-list.component';
 import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
-import { MarkdownPipe } from '../shared/pipes/markdown.pipe';
 import { reducers } from './reducer';
 import { BlogEffects } from './effects/blog.effects';
 import { BlogListItemComponent } from './components/blog-list/blog-list-item/blog-list-item.component';
