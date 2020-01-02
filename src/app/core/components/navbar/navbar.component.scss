@@ -1,5 +1,5 @@
 .container {
-  padding: 0 10%;
+  padding: 0 5%;
   height: 50px;
   width: 100%;
   top: 0;
@@ -11,7 +11,6 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-gap: 10px;
-  // align-content: center;
   place-self: center;
 }
 
