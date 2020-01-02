@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -7,16 +7,16 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
-
-  constructor(private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer) {
-     this.matIconRegistry.addSvgIcon(
-    'github',
-    this.domSanitizer.bypassSecurityTrustResourceUrl('../../../../assets/img/github.svg')
-  );}
-
-  ngOnInit() {
+export class NavbarComponent {
+  constructor(
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) {
+    this.matIconRegistry.addSvgIcon(
+      'github',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '../../../../assets/img/github.svg'
+      )
+    );
   }
-
 }
