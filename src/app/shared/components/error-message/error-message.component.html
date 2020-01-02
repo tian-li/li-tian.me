@@ -1,0 +1,14 @@
+<div class="error-message-container" *ngIf="errorMessage">
+  <div>
+    <h1>{{ errorMessage.title }}</h1>
+  </div>
+  <div>
+    <p>{{ errorMessage.message }}</p>
+  </div>
+  <div>
+    <button mat-button (click)="back.emit()">
+      <mat-icon>arrow_back</mat-icon>
+      回首页
+    </button>
+  </div>
+</div>
