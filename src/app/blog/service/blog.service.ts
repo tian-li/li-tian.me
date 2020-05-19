@@ -1,19 +1,18 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Params } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { Github } from 'github-api';
-import { map as _map, forEach, reduce, get } from 'lodash';
+import { Params } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { forEach, get, reduce } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
-
-import * as fromBlog from '../reducer/index';
 import { githubConfig } from '../../../github-config';
-import { Blog } from '../model/blog';
-import * as defaultValues from '../../shared/models/constants/default-values';
 import { avaliableQueryParams } from '../../shared/models/available-query-params';
+import * as defaultValues from '../../shared/models/constants/default-values';
 import { ErrorMessage } from '../../shared/models/error-message';
 import * as BlogActions from '../actions/blog.actions';
+import { Blog } from '../model/blog';
+import * as fromBlog from '../reducer/index';
+
 
 @Injectable()
 export class BlogService {
@@ -42,8 +41,10 @@ export class BlogService {
     this.errorMessage = this.store.pipe(select(fromBlog.getErrorMessage));
 
     this.params = new HttpParams()
-      .set('client_id', this.githubConfig.clientId)
-      .set('client_secret', this.githubConfig.clientSecret)
+      // Github no longer support these 2 params
+      // https://developer.github.com/changes/2020-02-10-deprecating-auth-through-query-param/
+      // .set('client_id', this.githubConfig.clientId)
+      // .set('client_secret', this.githubConfig.clientSecret)
       .set('per_page', defaultValues.blogsPerPage)
       .set('creator', githubConfig.userName);
   }
