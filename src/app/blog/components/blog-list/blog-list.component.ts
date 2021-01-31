@@ -28,7 +28,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.blogs$ = this.blogService.blogs;
 
-    combineLatest(this.blogService.totalPage, this.route.queryParams)
+    combineLatest([this.blogService.totalPage, this.route.queryParams])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([totalPage, queryParams]: [number, Params]) => {
         this.totalPage = totalPage;
