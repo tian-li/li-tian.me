@@ -38,6 +38,7 @@ export function reducer(state = initialState, action: BlogActionsUnion): State {
     case BlogActionTypes.LOAD_BLOGS_WITH_QUERY_SUCCESS: {
       const response: HttpResponse<any> = action.payload;
       const blogs: Blog[] = map(response.body, (blog: any) => new Blog(blog));
+
       const lastPageLink: string = find(
         split(response.headers.get('Link'), ','),
         (link: string) => {

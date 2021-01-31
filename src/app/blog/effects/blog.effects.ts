@@ -26,7 +26,12 @@ export class BlogEffects {
     map((action: LoadBlogsWithQuery) => action.payload),
     switchMap((payload: { [key: string]: string}) => {
       return this.blogService.loadBlogsByFilter(payload).pipe(
-        map((response: HttpResponse<any>) => new LoadBlogsWithQuerySuccess(response)),
+        map((response: HttpResponse<any>) => {
+          // TODO: temp solution to avoid object not extensible error at line 43 of blog.reducer.ts
+          response.headers.get('Link');
+
+          return new LoadBlogsWithQuerySuccess(response)
+        }),
         catchError((err: any) => of(new LoadBlogsWithQueryFail(err)))
       );
     })
