@@ -75,7 +75,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
   }
 
   loadByFilter() {
-    this.blogService.dispatchLoadBloagsWithQuery(this.queryList);
+    this.blogService.dispatchLoadBlogsWithQuery(this.queryList);
   }
 
   previousPage(): void {

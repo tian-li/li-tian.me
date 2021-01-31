@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BlogModule } from './blog/blog.module';
-import { reducers } from './blog/reducer';
+import { reducers } from './blog/store';
 import { AboutComponent } from './about/about.component';
 import { CoreModule } from './core/core.module';
 

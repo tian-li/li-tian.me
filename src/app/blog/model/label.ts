@@ -1,7 +1,7 @@
 export class Label {
   name: string;
-  private color: string;
-  private isDarkText: boolean;
+  private readonly color: string;
+  private readonly isDarkText: boolean;
 
   constructor(label: any) {
     this.name = label.name;

@@ -26,7 +26,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params: ParamMap) => {
-      this.blogService.dispatchLoadOneBlog({ blogNumber: parseInt(params.get('id'), 10) });
+      this.blogService.dispatchLoadOneBlog(parseInt(params.get('id'), 10));
     });
 
     this.blogService.selectedBlog.pipe(takeUntil(this.destroy$)).subscribe((blog: Blog) => {

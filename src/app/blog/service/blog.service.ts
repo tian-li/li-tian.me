@@ -9,10 +9,8 @@ import { githubConfig } from '../../../github-config';
 import { avaliableQueryParams } from '../../shared/models/available-query-params';
 import * as defaultValues from '../../shared/models/constants/default-values';
 import { ErrorMessage } from '../../shared/models/error-message';
-import * as BlogActions from '../actions/blog.actions';
 import { Blog } from '../model/blog';
-import * as fromBlog from '../reducer/index';
-
+import * as fromBlog from '../store';
 
 @Injectable()
 export class BlogService {
@@ -41,21 +39,21 @@ export class BlogService {
     this.errorMessage = this.store.pipe(select(fromBlog.getErrorMessage));
 
     this.params = new HttpParams()
-      // Github no longer support these 2 params
-      // https://developer.github.com/changes/2020-02-10-deprecating-auth-through-query-param/
-      // .set('client_id', this.githubConfig.clientId)
-      // .set('client_secret', this.githubConfig.clientSecret)
-      .set('per_page', defaultValues.blogsPerPage)
-      .set('creator', githubConfig.userName);
+    // Github no longer support these 2 params
+    // https://developer.github.com/changes/2020-02-10-deprecating-auth-through-query-param/
+    // .set('client_id', this.githubConfig.clientId)
+    // .set('client_secret', this.githubConfig.clientSecret)
+    .set('per_page', defaultValues.blogsPerPage)
+    .set('creator', githubConfig.userName);
   }
 
-  // dispathcers
-  dispatchLoadBloagsWithQuery(queryList: Params): void {
-    this.store.dispatch(new BlogActions.LoadBlogsWithQuery(queryList));
+  // dispatchers
+  dispatchLoadBlogsWithQuery(queryList: Params): void {
+    this.store.dispatch(fromBlog.loadBlogsWithQuery({ query: queryList }));
   }
 
-  dispatchLoadOneBlog(payload: { blogNumber: number }): void {
-    this.store.dispatch(new BlogActions.LoadOneBlog(payload));
+  dispatchLoadOneBlog(blogNumber: number): void {
+    this.store.dispatch(fromBlog.loadOneBlog({ blogNumber }));
   }
 
   loadBlogsByFilter(payload: { [key: string]: string }): Observable<HttpResponse<any>> {
@@ -70,15 +68,15 @@ export class BlogService {
 
   loadOneBlog(issueNumber: number): Observable<Blog> {
     return this.http
-      .get(`${this.api}/issues/${issueNumber}`, {
-        params: this.params,
-        observe: 'response',
+    .get(`${this.api}/issues/${issueNumber}`, {
+      params: this.params,
+      observe: 'response',
+    })
+    .pipe(
+      map((issue) => {
+        return new Blog(issue.body);
       })
-      .pipe(
-        map((issue) => {
-          return new Blog(issue.body);
-        })
-      );
+    );
   }
 
   buildQuery(queryParams: Params): { [key: string]: string } {
