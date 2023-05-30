@@ -25,7 +25,7 @@ export class BlogEffects {
                   return includes(link, 'rel="last"');
                 }
               );
-              const list: Map<string, string> = lastPageLink ? extractQueryList(lastPageLink) : undefined;
+              const list: Record<string, string> = lastPageLink ? extractQueryList(lastPageLink) : undefined;
 
               return BlogActions.loadBlogsWithQuerySuccess({ blogs, list });
             }),

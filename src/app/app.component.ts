@@ -22,7 +22,7 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubcribe$.next();
+    this.unsubcribe$.next(1);
     this.unsubcribe$.complete();
   }
 }

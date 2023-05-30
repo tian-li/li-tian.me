@@ -9,7 +9,7 @@ export const loadBlogsWithQuery = createAction(
 
 export const loadBlogsWithQuerySuccess = createAction(
   '[Blog] Load Blogs With Query Success',
-  props<{ blogs: Blog[], list: Map<string, string> }>()
+  props<{ blogs: Blog[], list: Record<string, string> }>()
 );
 
 export const loadBlogsWithQueryFail = createAction(

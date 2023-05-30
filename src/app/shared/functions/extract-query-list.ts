@@ -1,6 +1,6 @@
 import { split, last, reduce } from 'lodash';
 
-export function extractQueryList(url: string): Map<string, string> {
+export function extractQueryList(url: string): Record<string, string> {
   const queryString = last(split(url, '?'));
   const queryPairs: string[] = split(queryString, '&');
   return reduce(
